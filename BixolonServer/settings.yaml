@@ -1,0 +1,9 @@
+Port: COM1
+Taxes:
+  - 0
+  - 16
+  - 12
+  - 10
+# VALID VALUES EXCLUIDO / INCLUIDO
+TaxMode: INCLUIDO
+PayRest: 102

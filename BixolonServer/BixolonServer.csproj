@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  
+  <PropertyGroup>
+    <LibraryImportAttribute>
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </LibraryImportAttribute>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+      <Reference Include="TfhkaNet">
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <HintPath>TfhkaNet.dll</HintPath>
+      </Reference>
+      <Content Include=".\TfhkaNet.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="YamlDotNet" Version="13.1.1" />
+  </ItemGroup>
+
+</Project>
