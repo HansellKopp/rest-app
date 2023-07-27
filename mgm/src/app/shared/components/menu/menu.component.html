@@ -1,0 +1,13 @@
+<p-sidebar [(visible)]="sidebarVisible">
+    <p-panelMenu [model]="items" [style]="{'width':'260px'}"></p-panelMenu>
+</p-sidebar>
+
+<p-toolbar>
+    <div class="p-toolbar-group-start">
+        <p-button (click)="sidebarVisible = true" icon="{{icon}}" styleClass="p-button-text"></p-button>
+    </div>
+    <div class="flex-grow-1 flex align-items-center  font-bold px-2 py-2 border-round text-2xl">Rest App</div>
+    <div class="p-toolbar-group-end">
+        <p-avatar label="HK" styleClass="mr-2" size="large" shape="circle"></p-avatar>
+    </div>
+</p-toolbar>
