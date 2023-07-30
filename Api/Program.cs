@@ -1,5 +1,7 @@
-using Microsoft.AspNetCore.OpenApi;
+using Api.Db;
 using Api.EndpointDefinitions;
+using Microsoft.AspNetCore.OpenApi;
+using Microsoft.EntityFrameworkCore;
 
 const bool isDevelopment = true;
 
@@ -7,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 // read aditional config
 
 builder.Configuration.AddJsonFile("customSettings.json", optional: true, reloadOnChange: true);
+
+// Connect DB
+builder.Services.AddEntityFrameworkNpgsql().AddDbContext<Dbc>(opt =>
+        opt.UseNpgsql(builder.Configuration.GetConnectionString("db")));
 
 // add documentation helpers
 builder.Services.AddEndpointsApiExplorer();
