@@ -1,21 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { SidebarModule } from 'primeng/sidebar';
-import { AvatarModule } from "primeng/avatar";
-import { ToolbarModule } from 'primeng/toolbar';
 import { MenuItem, PrimeIcons } from 'primeng/api';
-import { PanelMenuModule } from 'primeng/panelmenu';
+import { PrimengModule } from 'src/app/primeng/primeng.module';
 
 @Component({
   selector: 'shared-menu',
   templateUrl: './menu.component.html',
   standalone: true,
   imports: [
-    ButtonModule,
-    SidebarModule,
-    AvatarModule,
-    ToolbarModule,
-    PanelMenuModule
+    PrimengModule
   ]
 })
 export class MenuComponent implements OnInit {

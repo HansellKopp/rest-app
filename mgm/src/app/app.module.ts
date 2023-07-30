@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RippleModule } from 'primeng/ripple';
@@ -8,7 +8,12 @@ import { AppComponent } from './app.component';
 
 import { SharedModule } from './shared/shared/shared.module';
 import { PrimengModule } from './primeng/primeng.module';
-import { ProductsModule } from './features/products/products.module';
+
+// register locals
+import localeEsVe from "@angular/common/locales/es-VE";
+import localeDeDeu from "@angular/common/locales/de-AT";
+import { registerLocaleData } from "@angular/common";
+registerLocaleData(localeDeDeu, localeEsVe);
 
 @NgModule({
   declarations: [
@@ -21,9 +26,10 @@ import { ProductsModule } from './features/products/products.module';
     RippleModule,
     SharedModule,
     PrimengModule,
-    //ProductsModule
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'es-VE'}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
