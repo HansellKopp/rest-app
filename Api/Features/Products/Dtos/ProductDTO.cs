@@ -3,11 +3,11 @@ using Api.Features.Producs.Models;
 namespace Api.Features.Producs.Dtos;
 public class ProductDTO
 {
-    public int? Id { get; set; }
+    public Guid? Id { get; set; }
     required public string Name { get; set; }
     required public Double Price { get; set; }
     required public Double Tax { get; set; }
-    required public int DepartamentId { get; set; }
+    required public Guid DepartamentId { get; set; }
     public string? DepartamentName { get; set; }
 
     public Product ToProduct()
