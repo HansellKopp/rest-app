@@ -1,5 +1,6 @@
 using Api.Db;
 using Api.EndpointDefinitions;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,8 +19,20 @@ builder.Services.AddEntityFrameworkNpgsql().AddDbContext<Dbc>(opt =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Cors 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      builder =>
+                      {
+                          builder.WithOrigins("*");
+                      });
+});
+
 builder.Services.AddEndpointDefinitions(typeof(IEndpointDefinition));
 var app = builder.Build();
+app.UseCors();
 
 // activate swagger
 if (isDevelopment)
