@@ -3,6 +3,8 @@ using Api.EndpointDefinitions;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+
 
 const bool isDevelopment = true;
 
@@ -29,6 +31,7 @@ builder.Services.AddCors(options =>
                           builder.WithOrigins("*");
                       });
 });
+
 
 builder.Services.AddEndpointDefinitions(typeof(IEndpointDefinition));
 var app = builder.Build();

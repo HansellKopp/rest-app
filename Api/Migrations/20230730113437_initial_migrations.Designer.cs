@@ -25,7 +25,7 @@ namespace Api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Api.Features.Producs.Models.Departament", b =>
+            modelBuilder.Entity("Api.Features.Producs.Models.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,7 +54,7 @@ namespace Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departaments");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Api.Features.Producs.Models.Product", b =>
@@ -70,7 +70,7 @@ namespace Api.Migrations
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("DepartamentId")
+                    b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -95,24 +95,24 @@ namespace Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartamentId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Api.Features.Producs.Models.Product", b =>
                 {
-                    b.HasOne("Api.Features.Producs.Models.Departament", "Departament")
+                    b.HasOne("Api.Features.Producs.Models.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("DepartamentId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_Products_Departament");
+                        .HasConstraintName("FK_Products_Category");
 
-                    b.Navigation("Departament");
+                    b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Api.Features.Producs.Models.Departament", b =>
+            modelBuilder.Entity("Api.Features.Producs.Models.Category", b =>
                 {
                     b.Navigation("Products");
                 });

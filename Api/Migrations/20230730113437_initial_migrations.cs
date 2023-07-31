@@ -12,7 +12,7 @@ namespace Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Departaments",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -25,7 +25,7 @@ namespace Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Departaments", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,7 +33,7 @@ namespace Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    DepartamentId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<double>(type: "double precision", nullable: false),
                     Tax = table.Column<double>(type: "double precision", nullable: false),
@@ -47,17 +47,17 @@ namespace Api.Migrations
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Departament",
-                        column: x => x.DepartamentId,
-                        principalTable: "Departaments",
+                        name: "FK_Products_Category",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_DepartamentId",
+                name: "IX_Products_CategoryId",
                 table: "Products",
-                column: "DepartamentId");
+                column: "CategoryId");
         }
 
         /// <inheritdoc />
@@ -67,7 +67,7 @@ namespace Api.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Departaments");
+                name: "Categories");
         }
     }
 }

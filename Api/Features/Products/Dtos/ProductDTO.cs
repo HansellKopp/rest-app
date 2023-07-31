@@ -7,8 +7,8 @@ public class ProductDTO
     required public string Name { get; set; }
     required public Double Price { get; set; }
     required public Double Tax { get; set; }
-    required public Guid DepartamentId { get; set; }
-    public string? DepartamentName { get; set; }
+    required public Guid CategoryId { get; set; }
+    public string? CategoryName { get; set; }
 
     public Product ToProduct()
     {
@@ -17,10 +17,10 @@ public class ProductDTO
             Name = Name,
             Price = Price,
             Tax = Tax,
-            Departament = new Departament
+            Category = new Category
             {
-                Id = DepartamentId,
-                Name = DepartamentName ?? ""
+                Id = CategoryId,
+                Name = CategoryName ?? ""
             }
         };
     }
@@ -33,8 +33,8 @@ public class ProductDTO
             Name = product.Name,
             Price = product.Price,
             Tax = product.Tax,
-            DepartamentId = product.Departament.Id,
-            DepartamentName = product.Departament.Name,
+            CategoryId = product.Category.Id,
+            CategoryName = product.Category.Name,
         };
     }
 }

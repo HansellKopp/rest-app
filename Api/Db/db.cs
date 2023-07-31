@@ -7,10 +7,13 @@ namespace Api.Db;
 class Dbc : DbContext
 {
     public Dbc(DbContextOptions<Dbc> options)
-        : base(options) { }
+        : base(options)
+    {
+
+    }
 
     public DbSet<Product> Products => Set<Product>();
-    public DbSet<Departament> Departaments => Set<Departament>();
+    public DbSet<Category> Categories => Set<Category>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -19,11 +22,11 @@ class Dbc : DbContext
         modelBuilder.Entity<Product>(entity =>
         {
             // One to Many relationship
-            entity.HasOne(d => d.Departament)
+            entity.HasOne(d => d.Category)
                 .WithMany(p => p.Products)
-                .HasForeignKey(d => d.DepartamentId)
+                .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("FK_Products_Departament");
+                .HasConstraintName("FK_Products_Category");
         });
 
 

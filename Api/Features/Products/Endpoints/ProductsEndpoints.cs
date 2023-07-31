@@ -1,4 +1,4 @@
-using System.Reflection.Metadata.Ecma335;
+
 using Api.Db;
 using Api.EndpointDefinitions;
 using Api.Features.Producs.Dtos;
@@ -20,34 +20,35 @@ public class ProductsEndpointDefinition : IEndpointDefinition
 
     public void DefineServices(IServiceCollection services)
     {
-        services.AddDbContext<Dbc>(opt => opt.UseInMemoryDatabase("Products"));
         services.AddDatabaseDeveloperPageExceptionFilter();
     }
 
     internal static async Task<IResult> GetAll(Dbc db)
     {
-        var products = await db.Products.ToListAsync();
-        return TypedResults.Ok(products.ToList());
+        var products = await db.Products.Include(b => b.Category).ToListAsync();
+        var productDtos = products.Select(p => (ProductDTO)p).ToList();
+        return TypedResults.Ok(productDtos);
     }
 
-    internal static async Task<IResult> GetById(int id, Dbc db)
+    internal static async Task<IResult> GetById(Guid id, Dbc db)
     {
-        return Results.Ok(await db.Products.FindAsync(id)
-                is Product product
+        var product = await db.Products.FindAsync(id);
+        var category = await db.Categories.FindAsync(product.CategoryId);
+        return product is Product
                     ? TypedResults.Ok((ProductDTO)product)
-                    : TypedResults.NotFound());
+                    : TypedResults.NotFound();
     }
 
     internal static async Task<IResult> Create(ProductDTO ProductDTO, Dbc db)
     {
-        var dep = db.Departaments.Find(ProductDTO.DepartamentId);
+        var dep = db.Categories.Find(ProductDTO.CategoryId);
         if (dep == null)
         {
             return TypedResults.BadRequest();
         }
 
         var product = ProductDTO.ToProduct();
-        product.Departament = dep;
+        product.Category = dep;
 
         db.Products.Add(product);
 
