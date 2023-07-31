@@ -11,7 +11,7 @@ import { PrimengModule } from 'src/app/primeng/primeng.module';
   ]
 })
 export class MenuComponent implements OnInit {
-  sidebarVisible: boolean = true;
+  sidebarVisible: boolean = false;
   icon = PrimeIcons.BARS
   items: MenuItem[] = [];
 
