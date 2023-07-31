@@ -12,9 +12,10 @@ import { PrimengModule } from './primeng/primeng.module';
 
 // register locals
 import localeEsVe from "@angular/common/locales/es-VE";
-import localeDeDeu from "@angular/common/locales/de-AT";
+//import localeDeDeu from "@angular/common/locales/de-AT";
 import { registerLocaleData } from "@angular/common";
-registerLocaleData(localeDeDeu, localeEsVe);
+
+registerLocaleData(localeEsVe);
 
 @NgModule({
   declarations: [
