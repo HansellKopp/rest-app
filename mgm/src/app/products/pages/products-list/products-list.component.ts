@@ -1,14 +1,16 @@
 import { Table } from 'primeng/table';
 import { Component, OnInit, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Product } from '../../interfaces/products-interface';
+import { Product } from '../../interfaces/product-interface';
 import { ProductsService } from '../../products.service';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './products-list.component.html',
   providers: [MessageService, ConfirmationService]
 })
 export class ProductsListComponent implements OnInit {
+  private router = inject(Router);
   private productsService = inject(ProductsService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
@@ -19,11 +21,11 @@ export class ProductsListComponent implements OnInit {
   }
 
   addProduct(): void {
-    console.log("add product");
+    this.router.navigateByUrl("/products/new");
   }
 
   editProduct(product: Product): void {
-    console.log(product);
+    this.router.navigateByUrl(`/products/edit/${product.Id}`);
   }
 
   deleteProduct(product: Product) {

@@ -7,9 +7,13 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { PanelModule } from 'primeng/panel';
 import { TableModule} from "primeng/table"
 import { InputTextModule} from "primeng/inputtext"
+import { InputNumberModule } from "primeng/inputnumber";
+import { TreeSelectModule } from 'primeng/treeselect';
 import { ToastModule } from "primeng/toast";
 import { DialogModule } from "primeng/dialog";
-import {  } from "primeng/confirmdialog";
+import { ConfirmDialogModule } from "primeng/confirmdialog";
+import { ProgressSpinnerModule } from "primeng/progressspinner";
+import { ProgressBarModule } from "primeng/progressbar";
 
 @NgModule({
   declarations: [],
@@ -22,8 +26,13 @@ import {  } from "primeng/confirmdialog";
     PanelModule,
     TableModule,
     InputTextModule,
+    InputNumberModule,
+    TreeSelectModule,
     ToastModule,
-    DialogModule
+    DialogModule,
+    ConfirmDialogModule,
+    ProgressBarModule,
+    ProgressSpinnerModule
   ]
 })
 export class PrimengModule { }

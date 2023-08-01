@@ -1,0 +1,81 @@
+<p-progressBar *ngIf="!product" mode="indeterminate" [style]="{ height: '4px' }"></p-progressBar>
+
+
+<div class="surface-card p-4 shadow-2 border-round">
+    <div class="text-3xl font-medium text-900 mb-3">{{ product?.name || "Edit product"}}</div>
+    <div class="font-medium text-500 mb-3"><a routerLink="/products">Go back</a></div>
+    <div class="border-2 border surface-border">
+        <form [formGroup]="productForm" class="p-4 grid">
+
+          <div class="field col">
+            <label class="block" for="categoryId">Category</label>
+            
+            <p-treeSelect class="md:w-20rem w-full" containerStyleClass="w-full" 
+              id="categoryId"
+              formControlName="categoryId"
+              [options]="categories" 
+              placeholder="Category"
+            ></p-treeSelect>
+            <small
+              class="p-error block"
+              *ngIf="
+                productForm.controls['price'].invalid &&
+                productForm.controls['price'].dirty
+              "
+              >Field is required</small
+            >
+          </div>
+            <div class="field col">
+              <label class="block" for="title">Name</label>
+              <input type="text" pInputText id="name" formControlName="name" class="w-full"/>
+              <small
+                class="p-error block"
+                *ngIf="
+                  productForm.controls['name'].invalid &&
+                  productForm.controls['name'].dirty
+                "
+                >Field is required</small
+              >
+            </div>
+            <div class="field col">
+              <label class="block" for="price">Price</label>
+              <p-inputNumber
+                id="price"
+                formControlName="price"
+                class="block"
+              ></p-inputNumber>
+              <small
+                class="p-error block"
+                *ngIf="
+                  productForm.controls['price'].invalid &&
+                  productForm.controls['price'].dirty
+                "
+                >Field is required</small
+              >
+            </div>
+            <div class="field col">
+              <label class="block" for="price">Tax</label>
+              <p-inputNumber
+                id="tax"
+                formControlName="tax"
+                class="block"
+              ></p-inputNumber>
+              <small
+                class="p-error block"
+                *ngIf="
+                  productForm.controls['price'].invalid &&
+                  productForm.controls['price'].dirty
+                "
+                >Field is required</small
+              >
+            </div>
+
+
+        </form>
+      </div>
+      <div class="flex justify-content-end pt-4 gap-2">
+        <p-button label="Save" icon="pi pi-check"></p-button>
+        <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary align-self-end "></p-button>
+      </div>
+</div>
+
