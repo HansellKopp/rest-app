@@ -1,19 +1,28 @@
-
-<div class="mt-4">
+<p-toast></p-toast>
+<div class="mt-4">    
     <p-panel header="Products">
+    <p-toolbar styleClass="mb-4 gap-2">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="addProduct()"></button>
+        </ng-template>
+    
+        <ng-template pTemplate="right">
+            <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+        </ng-template>
+    </p-toolbar>
 
-<p-table
-    #dt1
-    dataKey="id"
-    [value]="(products$ | async) ||[]" [tableStyle]="{ 'min-width': '50rem' }"
-    [paginator]="true"
-    [rows]="5"
-    [showCurrentPageReport]="true"
-    [tableStyle]="{ 'min-width': '50rem' }"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [rowsPerPageOptions]="[10, 25, 50]"
-    [globalFilterFields]="['name', 'categoryName']"
->
+    <p-table
+        #dt1
+        dataKey="id"
+        [value]="products" [tableStyle]="{ 'min-width': '50rem' }"
+        [paginator]="true"
+        [rows]="5"
+        [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [globalFilterFields]="['name', 'categoryName']"
+    >
     <ng-template pTemplate="caption">
         <div class="flex">
             <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
@@ -34,7 +43,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-product>
         <tr>
-            <td>{{ product.name }}</td>
+            <td><a routerLink="/produdts/1">{{ product.name }}</a></td>
             <td>{{ product.categoryName }}</td>
             <td>{{ product.price | currency }}</td>
             <td>{{ (product.tax/100)  | percent }}</td>
@@ -44,6 +53,7 @@
             </td>
         </tr>
     </ng-template>
-</p-table>
+    </p-table>
     </p-panel>
+    <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
 </div>

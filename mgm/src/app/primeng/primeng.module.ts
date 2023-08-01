@@ -7,6 +7,9 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { PanelModule } from 'primeng/panel';
 import { TableModule} from "primeng/table"
 import { InputTextModule} from "primeng/inputtext"
+import { ToastModule } from "primeng/toast";
+import { DialogModule } from "primeng/dialog";
+import {  } from "primeng/confirmdialog";
 
 @NgModule({
   declarations: [],
@@ -18,7 +21,9 @@ import { InputTextModule} from "primeng/inputtext"
     PanelMenuModule,
     PanelModule,
     TableModule,
-    InputTextModule
+    InputTextModule,
+    ToastModule,
+    DialogModule
   ]
 })
 export class PrimengModule { }
