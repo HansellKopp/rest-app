@@ -40,7 +40,7 @@ public class ProductsEndpointDefinition : IEndpointDefinition
 
     internal static async Task<IResult> Create(ProductDTO ProductDTO, Dbc db)
     {
-        var dep = db.Categories.Find(ProductDTO.CategoryId);
+        var dep = db.Categories.Find(ProductDTO.Category.Id);
         if (dep == null)
         {
             return TypedResults.BadRequest();

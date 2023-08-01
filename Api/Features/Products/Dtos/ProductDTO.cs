@@ -1,3 +1,6 @@
+using System.ComponentModel;
+using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using System;
 using Api.Features.Producs.Models;
 
@@ -8,9 +11,8 @@ public class ProductDTO
     required public string Name { get; set; }
     required public Double Price { get; set; }
     required public Double Tax { get; set; }
-    required public Guid CategoryId { get; set; }
-    public string? CategoryName { get; set; }
     public string? Image { get; set; }
+    public required CategoryDTO Category { get; set; }
 
     public Product ToProduct()
     {
@@ -22,8 +24,9 @@ public class ProductDTO
             Image = Image,
             Category = new Category
             {
-                Id = CategoryId,
-                Name = CategoryName ?? ""
+                Id = (Guid)Category.Id!,
+                Name = Category.Name,
+                Image = Category.Image,
             }
         };
     }
@@ -36,8 +39,12 @@ public class ProductDTO
             Name = product.Name,
             Price = product.Price,
             Tax = product.Tax,
-            CategoryId = product.Category.Id,
-            CategoryName = product.Category.Name,
+            Category = new CategoryDTO
+            {
+                Id = product.Category!.Id!,
+                Name = product.Category.Name,
+                Image = product.Category.Image,
+            }
         };
     }
 }
