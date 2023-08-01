@@ -1,3 +1,4 @@
+using System;
 using Api.Features.Producs.Models;
 
 namespace Api.Features.Producs.Dtos;
@@ -9,7 +10,7 @@ public class ProductDTO
     required public Double Tax { get; set; }
     required public Guid CategoryId { get; set; }
     public string? CategoryName { get; set; }
-    public string Image { get; set; }
+    public string? Image { get; set; }
 
     public Product ToProduct()
     {
@@ -18,7 +19,7 @@ public class ProductDTO
             Name = Name,
             Price = Price,
             Tax = Tax,
-            Image = Image
+            Image = Image,
             Category = new Category
             {
                 Id = CategoryId,

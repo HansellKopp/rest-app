@@ -33,10 +33,9 @@ public class ProductsEndpointDefinition : IEndpointDefinition
     internal static async Task<IResult> GetById(Guid id, Dbc db)
     {
         var product = await db.Products.FindAsync(id);
+        if (!(product is Product)) return TypedResults.NotFound();
         var category = await db.Categories.FindAsync(product.CategoryId);
-        return product is Product
-                    ? TypedResults.Ok((ProductDTO)product)
-                    : TypedResults.NotFound();
+        return TypedResults.Ok((ProductDTO)product);
     }
 
     internal static async Task<IResult> Create(ProductDTO ProductDTO, Dbc db)
@@ -57,7 +56,7 @@ public class ProductsEndpointDefinition : IEndpointDefinition
         return TypedResults.Created($"/api/products/{product.Id}", (ProductDTO)product);
     }
 
-    internal static async Task<IResult> Update(int id, Product inputProduct, Dbc db)
+    internal static async Task<IResult> Update(Guid id, Product inputProduct, Dbc db)
     {
         var product = await db.Products.FindAsync(id);
 
@@ -72,7 +71,7 @@ public class ProductsEndpointDefinition : IEndpointDefinition
         return TypedResults.NoContent();
     }
 
-    internal static async Task<IResult> Delete(int id, Dbc db)
+    internal static async Task<IResult> Delete(Guid id, Dbc db)
     {
         if (await db.Products.FindAsync(id) is Product product)
         {

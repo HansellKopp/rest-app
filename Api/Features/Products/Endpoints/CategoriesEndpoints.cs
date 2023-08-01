@@ -7,7 +7,7 @@ namespace Api.Features.Producs.Endpoints;
 
 public class CategoriesEndpointDefinition : IEndpointDefinition
 {
-    readonly String root = "/api/Categories";
+    readonly String root = "/api/categories";
     public void DefineEndpoints(WebApplication app)
     {
         app.MapGet(root, GetAll);
@@ -19,13 +19,14 @@ public class CategoriesEndpointDefinition : IEndpointDefinition
 
     public void DefineServices(IServiceCollection services)
     {
-        // services.AddDbContext<Dbc>(opt => opt.Use("products"));
         services.AddDatabaseDeveloperPageExceptionFilter();
     }
 
     internal static async Task<IResult> GetAll(Dbc db)
     {
-        return TypedResults.Ok(await db.Categories.ToListAsync());
+        var Categories = await db.Categories.ToListAsync();
+        var CategoriesDTO = Categories.Select(p => (CategoryDTO)p).ToList();
+        return TypedResults.Ok(CategoriesDTO);
     }
 
     internal static async Task<IResult> GetById(int id, Dbc db)
