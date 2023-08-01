@@ -1,8 +1,10 @@
+import { Category } from "./category-interface";
+
 export interface Product {
-    Id: string;
+    id: string;
     name: string;
     price: number,
     tax: number,
-    categoryId: string,
-    categoryName: string,
+    image: string,
+    category: Category
 }

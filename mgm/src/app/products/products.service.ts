@@ -42,4 +42,14 @@ export class ProductsService {
         return of(false)
       }));      
   }
+
+  updateProduct(data: Product): Observable<boolean> {
+    return this.http.put<boolean>(`${environment.baseUrl}/products/${data.id}`, data).pipe(
+      map(()=> true),
+      catchError((error) => {
+        console.log(error)
+        return of(false)
+      }));      
+  }
+
 }

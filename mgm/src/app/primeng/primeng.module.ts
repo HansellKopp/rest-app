@@ -14,6 +14,7 @@ import { DialogModule } from "primeng/dialog";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { ProgressBarModule } from "primeng/progressbar";
+import { DropdownModule } from "primeng/dropdown";
 
 @NgModule({
   declarations: [],
@@ -32,7 +33,8 @@ import { ProgressBarModule } from "primeng/progressbar";
     DialogModule,
     ConfirmDialogModule,
     ProgressBarModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    DropdownModule
   ]
 })
 export class PrimengModule { }

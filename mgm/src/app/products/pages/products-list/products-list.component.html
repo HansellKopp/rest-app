@@ -34,7 +34,7 @@
     <ng-template pTemplate="header">
         <tr>
             <th pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon></th>
-            <th pSortableColumn="category">Category<p-sortIcon field="category"></p-sortIcon></th>
+            <th pSortableColumn="category">Category<p-sortIcon field="category.name"></p-sortIcon></th>
             <th>Price</th>
             <th>Tax</th>
             <th></th>
@@ -43,7 +43,7 @@
     <ng-template pTemplate="body" let-product>
         <tr>
             <td><a routerLink="{{ '/products/' + product.id }}">{{ product.name }}</a></td>
-            <td>{{ product.categoryName }}</td>
+            <td>{{ product.category.name }}</td>
             <td>{{ product.price | currency }}</td>
             <td>{{ (product.tax/100)  | percent }}</td>
             <td>

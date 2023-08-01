@@ -25,7 +25,7 @@ export class ProductsListComponent implements OnInit {
   }
 
   editProduct(product: Product): void {
-    this.router.navigateByUrl(`/products/edit/${product.Id}`);
+    this.router.navigateByUrl(`/products/${product.id}`);
   }
 
   deleteProduct(product: Product) {
@@ -34,8 +34,10 @@ export class ProductsListComponent implements OnInit {
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            this.products = this.products.filter((val) => val.Id !== product.Id);
-            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+            this.productsService.deleteProductById(product.id).subscribe(()=> {
+              this.products = this.products.filter((val) => val.id !== product.id);
+              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+            })
         }
     });
 }
