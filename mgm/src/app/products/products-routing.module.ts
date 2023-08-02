@@ -12,7 +12,6 @@ const routes: Routes = [{
     { path: "", component: ProductsListComponent },
     { path: "new", component: ProductNewComponent },
     { path: ":id", component: ProductEditComponent },
-    { path: "**", redirectTo: ''}
   ]}
 ];
 

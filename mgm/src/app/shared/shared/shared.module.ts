@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { MenuComponent } from '../components/menu/menu.component';
+import { Page404Component } from '../page404/page404.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    Page404Component
+  ],
   imports: [
-    MenuComponent
+    MenuComponent,
   ],
   exports: [
-    MenuComponent
+    MenuComponent,
+    Page404Component
   ]
 })
 export class SharedModule { }
