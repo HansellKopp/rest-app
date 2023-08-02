@@ -1,8 +1,7 @@
-<p-progressBar *ngIf="!product" mode="indeterminate" [style]="{ height: '4px' }"></p-progressBar>
-
-
+<p-toast></p-toast>
+<p-progressBar *ngIf="loading" mode="indeterminate" [style]="{ height: '4px' }"></p-progressBar>
 <div class="surface-card p-4 shadow-2 border-round">
-    <div class="text-3xl font-medium text-900 mb-3">{{ product?.name || "Edit product"}}</div>
+    <div *ngIf="!loading" class="text-3xl font-medium text-900 mb-3">{{ currentProduct.id ? currentProduct.name: "Add product"  }}</div>
     <div class="font-medium text-500 mb-3"><a routerLink="/products">Go back</a></div>
     <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
       <div class="border-2 border surface-border  p-4 grid">

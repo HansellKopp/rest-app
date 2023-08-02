@@ -4,11 +4,13 @@ import { Product } from '../../interfaces/product-interface';
 import { CategoriesService } from '../../categories.service';
 import { ProductsService } from '../../products.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { delay, switchMap, tap } from 'rxjs';
+import { delay, switchMap, tap, timeout } from 'rxjs';
 import { Category } from '../../interfaces/category-interface';
+import { MessageService } from 'primeng/api';
 
 @Component({
   templateUrl: './product-edit.component.html',
+  providers: [MessageService],
   styles: []
 })
 export class ProductEditComponent implements OnInit, OnDestroy {
@@ -18,13 +20,13 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   private activatedRoute = inject(ActivatedRoute);
   private productsService = inject(ProductsService);
   private categoriesService = inject(CategoriesService);
+  private messageService = inject(MessageService);
+  public loading: boolean = true;
 
-  category: Category | undefined;
-  product: Product | undefined;
   categories: Category[] = []
     
   public productForm = new FormGroup({
-      id: new FormControl<string>(""),
+      id: new FormControl<string|null>(null),
       name: new FormControl<string>("", { nonNullable: false}),
       price: new FormControl<number>(0,{ nonNullable: false}),
       tax: new FormControl<number>(0,{ nonNullable: false}),
@@ -33,6 +35,10 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   });
   
   ngOnInit(): void {
+    if ( this.router.url.includes('new') ) {
+      this.loadCategories();
+      return;
+    }
     this.activatedRoute.params
       .pipe(
         delay(300),
@@ -43,8 +49,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
       )
       .subscribe(data => {
         if(!data) return this.router.navigateByUrl(this.listUrl)
-        this.product = data;
-        this.productForm.setValue(data);
+        this.productForm.reset(data);
         return;
     });
   }
@@ -54,23 +59,38 @@ export class ProductEditComponent implements OnInit, OnDestroy {
         .subscribe(data => {
           if(!data.length) return this.router.navigateByUrl(this.categoriesUrl)
           this.categories = data;
+          this.loading = false;
       return;
   });
   }
 
   ngOnDestroy(): void {
-    console.log("destroy")
+  }
+
+  get currentProduct(): Product {
+    return this.productForm.value as Product
   }
 
   onSubmit(): void {
     if(!this.productForm.valid) {
       return;
     }
-    this.productsService.updateProduct({...this.productForm.value} as Product)
+    if(this.currentProduct.id) {
+      this.productsService.updateProduct(this.currentProduct)
+        .subscribe((e)=> {
+          if(!e) return
+          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product updated', life: 3000 });
+        });
+        return;
+    } 
+    this.productsService.addProduct(this.currentProduct)
       .subscribe((response)=> {
         if(!response) return
-        this.router.navigateByUrl(this.listUrl)
-      });
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product created', life: 3000 });
+        setTimeout(() => {
+          this.router.navigateByUrl(`${this.listUrl}/${response.id}`)          
+        }, 1000);
+      });    
   }
 
   onCancel(): void {
