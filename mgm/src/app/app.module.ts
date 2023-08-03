@@ -14,6 +14,7 @@ import { PrimengModule } from './primeng/primeng.module';
 import localeEsVe from "@angular/common/locales/es-VE";
 //import localeDeDeu from "@angular/common/locales/de-AT";
 import { registerLocaleData } from "@angular/common";
+import { MessageService } from 'primeng/api';
 
 registerLocaleData(localeEsVe);
 
@@ -31,7 +32,8 @@ registerLocaleData(localeEsVe);
     HttpClientModule
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'es-VE'}
+    { provide: LOCALE_ID, useValue: 'es-VE'},
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

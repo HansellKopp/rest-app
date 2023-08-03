@@ -4,13 +4,13 @@ import { Product } from '../../interfaces/product-interface';
 import { CategoriesService } from '../../categories.service';
 import { ProductsService } from '../../products.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { delay, switchMap, tap, timeout } from 'rxjs';
+import { delay, switchMap, tap, filter, pipe, catchError, of } from 'rxjs';
 import { Category } from '../../interfaces/category-interface';
 import { MessageService } from 'primeng/api';
 
 @Component({
   templateUrl: './product-edit.component.html',
-  providers: [MessageService],
+  providers: [],
   styles: []
 })
 export class ProductEditComponent implements OnInit, OnDestroy {
@@ -27,10 +27,10 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     
   public productForm = new FormGroup({
       id: new FormControl<string|null>(null),
-      name: new FormControl<string>("", { nonNullable: false}),
-      price: new FormControl<number>(0,{ nonNullable: false}),
-      tax: new FormControl<number>(0,{ nonNullable: false}),
-      category: new FormControl<Category|null>(null),
+      name: new FormControl<string>("", { nonNullable: true}),
+      price: new FormControl<number>(0,{ nonNullable: true}),
+      tax: new FormControl<number>(0,{ nonNullable: true}),
+      category: new FormControl<Category>({} as Category,{  nonNullable: true}),
       image: new FormControl<string | null>(null),
   });
   
@@ -77,20 +77,19 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     }
     if(this.currentProduct.id) {
       this.productsService.updateProduct(this.currentProduct)
-        .subscribe((e)=> {
-          if(!e) return
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product updated', life: 3000 });
-        });
+        .pipe(
+          filter((e:boolean)=> e),
+          tap(()=>this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product updated', life: 3000 }))
+        ).subscribe();
         return;
     } 
     this.productsService.addProduct(this.currentProduct)
-      .subscribe((response)=> {
-        if(!response) return
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product created', life: 3000 });
-        setTimeout(() => {
-          this.router.navigateByUrl(`${this.listUrl}/${response.id}`)          
-        }, 1000);
-      });    
+        .subscribe((response)=> {
+          if(response) {
+            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product created', life: 3000 }),
+            this.router.navigateByUrl(`${this. listUrl}/${response!.id}`);
+        }
+      })
   }
 
   onCancel(): void {

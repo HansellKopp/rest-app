@@ -3,12 +3,18 @@ import { Injectable, inject } from '@angular/core';
 import { Product } from './interfaces/product-interface';
 import { environment } from 'src/environments/environment.development';
 import { Observable, map, catchError, of } from 'rxjs';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductsService {
   private http = inject(HttpClient);
+  private messageService = inject(MessageService);
+
+  showErrorMessage(summary: string, detail: string): void {
+    this.messageService.add({ severity: "error", summary, detail, life: 3000 })
+  }
 
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(`${environment.baseUrl}/products`).pipe(
@@ -21,10 +27,10 @@ export class ProductsService {
 
   addProduct(data: Product): Observable<Product| undefined> {
     return this.http.post<Product>(`${environment.baseUrl}/products`, data).pipe(
-      catchError((error) => {
-        console.log(error)
+      catchError(() => {
+        this.showErrorMessage("Server error", "Unable to create product");
         return of(undefined)
-      }));      
+      }));
   }
 
   getProductById(id: string): Observable<Product | undefined> {

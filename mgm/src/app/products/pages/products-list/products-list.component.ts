@@ -51,6 +51,4 @@ export class ProductsListComponent implements OnInit {
     table.filterGlobal(value.toLowerCase(), 'contains');
   }
 
-
-
 }
