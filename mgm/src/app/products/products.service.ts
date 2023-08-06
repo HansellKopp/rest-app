@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Injectable, inject } from '@angular/core';
 import { Product } from './interfaces/product-interface';
 import { environment } from 'src/environments/environment.development';
@@ -26,10 +26,15 @@ export class ProductsService {
   }
 
   addProduct(data: Product): Observable<Product| undefined> {
-    return this.http.post<Product>(`${environment.baseUrl}/products`, data).pipe(
-      catchError(() => {
-        this.showErrorMessage("Server error", "Unable to create product");
-        return of(undefined)
+    return this.http.post<Product>(`${environment.baseUrl}/products`, data)
+    .pipe(
+      catchError((error: HttpErrorResponse) => {
+        if(error.status == 400) {
+          this.showErrorMessage("Server error", "Unable to create product");
+          return of(undefined)
+        } else {
+          throw error;
+        }
       }));
   }
 
