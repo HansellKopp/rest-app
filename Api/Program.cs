@@ -1,9 +1,8 @@
 using Api.Db;
 using Api.EndpointDefinitions;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.OpenApi;
+using Api.Features.Auth.Models;
+using Api.Features.Auth.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 
 
 const bool isDevelopment = true;
@@ -11,7 +10,7 @@ const bool isDevelopment = true;
 var builder = WebApplication.CreateBuilder(args);
 // read aditional config
 
-builder.Configuration.AddJsonFile("customSettings.json", optional: true, reloadOnChange: true);
+var config = builder.Configuration.AddJsonFile("customSettings.json", optional: true, reloadOnChange: true);
 
 // Connect DB
 builder.Services.AddEntityFrameworkNpgsql().AddDbContext<Dbc>(opt =>
@@ -21,6 +20,9 @@ builder.Services.AddEntityFrameworkNpgsql().AddDbContext<Dbc>(opt =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Configure identity
+builder.Services.AddIdentityCore<User>()
+                .AddEntityFrameworkStores<Dbc>();
 // Cors 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
@@ -34,10 +36,30 @@ builder.Services.AddCors(options =>
 
 
 builder.Services.AddEndpointDefinitions(typeof(IEndpointDefinition));
+
+// Authentication services
+builder.Services.AddAuthentication().AddJwtBearer();
+builder.Services.AddAuthorizationBuilder();
+
+// Add the service to generate JWT tokens
+builder.Services.AddTokenService();
+
+// State that represents the current user from the database *and* the request
+builder.Services.AddCurrentUser();
+
+// Authorization service
+builder.Services.AddAuthorization();
 var app = builder.Build();
+
 app.UseCors();
 
-// activate swagger
+// use Authentication + authorization services
+
+app.UseAuthentication();
+
+app.UseAuthorization();
+
+// activate swagger in development
 if (isDevelopment)
 {
     app.UseSwagger();

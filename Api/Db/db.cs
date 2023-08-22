@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Api.Features.Auth.Models;
 using Api.Features.Producs.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ class Dbc : DbContext
 
     }
 
+    public DbSet<User> Users => Set<User>();
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Category> Categories => Set<Category>();
 
