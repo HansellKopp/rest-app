@@ -77,19 +77,24 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     }
     if(this.currentProduct.id) {
       this.productsService.updateProduct(this.currentProduct)
-        .pipe(
-          filter((e:boolean)=> e),
-          tap(()=>this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product updated', life: 3000 }))
+        .pipe(          
+          tap((success: boolean)=> {
+            if(success) {
+              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product updated', life: 3000 })
+            }
+          })
         ).subscribe();
         return;
     } 
     this.productsService.addProduct(this.currentProduct)
-        .subscribe((response)=> {
-          if(response) {
+      .pipe(          
+        tap((product: Product | undefined)=> {
+          if(product) {
             this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product created', life: 3000 }),
-            this.router.navigateByUrl(`${this. listUrl}/${response!.id}`);
-        }
-      })
+            this.router.navigateByUrl(`${this. listUrl}/${product!.id}`);
+          }
+        })
+      ).subscribe()
   }
 
   onCancel(): void {

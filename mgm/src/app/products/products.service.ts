@@ -29,12 +29,15 @@ export class ProductsService {
     return this.http.post<Product>(`${environment.baseUrl}/products`, data)
     .pipe(
       catchError((error: HttpErrorResponse) => {
-        if(error.status == 400) {
-          this.showErrorMessage("Server error", "Unable to create product");
-          return of(undefined)
-        } else {
-          throw error;
+        switch (error.status) {
+          case 400:
+            this.showErrorMessage("Server error", "Unable to create product");                        
+            break;
+          case 401:
+            this.showErrorMessage("Server error", "Unauthorized, unable to create product");            
+            break;          
         }
+        return of(undefined)
       }));
   }
 
@@ -50,6 +53,14 @@ export class ProductsService {
     return this.http.delete<Product>(`${environment.baseUrl}/products/${id}`).pipe(
       map(() => true ),
       catchError((error) => {
+        switch (error.status) {
+          case 404:
+            this.showErrorMessage("Server error", "Product not found");
+            break;
+          case 401:
+            this.showErrorMessage("Server error", "Unauthorized, unable to delete product");            
+            break;          
+        }
         return of(false)
       }));      
   }
@@ -58,7 +69,14 @@ export class ProductsService {
     return this.http.put<boolean>(`${environment.baseUrl}/products/${data.id}`, data).pipe(
       map(()=> true),
       catchError((error) => {
-        console.log(error)
+        switch (error.status) {
+          case 404:
+            this.showErrorMessage("Server error", "Product not found");
+            break;
+          case 401:
+            this.showErrorMessage("Server error", "Unauthorized, unable to update product");            
+            break;          
+        }
         return of(false)
       }));      
   }

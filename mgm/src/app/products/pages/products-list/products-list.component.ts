@@ -34,7 +34,10 @@ export class ProductsListComponent implements OnInit {
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            this.productsService.deleteProductById(product.id).subscribe(()=> {
+            this.productsService.deleteProductById(product.id).subscribe((success: boolean)=> {
+              if(!success) {
+                return;
+              }
               this.products = this.products.filter((val) => val.id !== product.id);
               this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
             })
