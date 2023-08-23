@@ -13,9 +13,9 @@ public class ProductsEndpointDefinition : IEndpointDefinition
     {
         app.MapGet(root, GetAll);
         app.MapGet($"{root}/{{id}}", GetById);
-        app.MapPost(root, Create);
-        app.MapPut($"{root}/{{id}}", Update);
-        app.MapDelete($"{root}/{{id}}", Delete);
+        app.MapPost(root, Create).RequireAuthorization();
+        app.MapPut($"{root}/{{id}}", Update).RequireAuthorization();
+        app.MapDelete($"{root}/{{id}}", Delete).RequireAuthorization();
     }
 
     public void DefineServices(IServiceCollection services)
