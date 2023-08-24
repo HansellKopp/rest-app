@@ -13,6 +13,7 @@ public class AuthEndpointDefinition : IEndpointDefinition
     {
         app.MapPost($"{root}/auth", Authenticate);
         app.MapPost($"{root}/users", CreateUser);
+        app.MapGet($"{root}/auth/me", GetCurrentUser);
     }
 
     public void DefineServices(IServiceCollection services)
@@ -20,19 +21,42 @@ public class AuthEndpointDefinition : IEndpointDefinition
         services.AddDatabaseDeveloperPageExceptionFilter();
     }
 
-    internal static async Task<IResult> CreateUser(CreateUserDTO newUser, UserManager<User> userManager) 
+    internal static async Task<IResult> GetCurrentUser(UserManager<User> userManager, CurrentUser currentUser)
     {
-        var user = new User {
+        if(currentUser.Principal != null)
+        {
+            var user = await userManager.FindByNameAsync(currentUser.Id);
+            if(user !=null)
+            {
+                CurrentUserDTO me = new CurrentUserDTO
+                {
+                    UserName = user.UserName!,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    IsAdmin = currentUser.IsAdmin,
+                    Email = user.Email!
+                };
+                return TypedResults.Ok(me);
+            }
+
+        }
+        return TypedResults.BadRequest();
+    }
+
+    internal static async Task<IResult> CreateUser(CreateUserDTO newUser, UserManager<User> userManager)
+    {
+        var user = new User
+        {
             FirstName = newUser.FirstName,
             LastName = newUser.LastName,
             UserName = newUser.UserName,
         };
         var result = await userManager.CreateAsync(user, newUser.Password);
 
-       if (result.Succeeded)
-            {
-                return TypedResults.Ok();
-            }
+        if (result.Succeeded)
+        {
+            return TypedResults.Ok();
+        }
 
         return TypedResults.ValidationProblem(result.Errors.ToDictionary(e => e.Code, e => new[] { e.Description }));
     }
