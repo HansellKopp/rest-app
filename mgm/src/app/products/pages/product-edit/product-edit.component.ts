@@ -4,7 +4,7 @@ import { Product } from '../../interfaces/product-interface';
 import { CategoriesService } from '../../categories.service';
 import { ProductsService } from '../../products.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { delay, switchMap, tap, filter} from 'rxjs';
+import { delay, switchMap, tap } from 'rxjs';
 import { Category } from '../../interfaces/category-interface';
 import { MessageService } from 'primeng/api';
 

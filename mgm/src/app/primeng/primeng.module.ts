@@ -15,6 +15,8 @@ import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { ProgressBarModule } from "primeng/progressbar";
 import { DropdownModule } from "primeng/dropdown";
+import { CheckboxModule } from "primeng/checkbox";
+import { CardModule } from 'primeng/card';
 
 @NgModule({
   declarations: [],
@@ -34,7 +36,9 @@ import { DropdownModule } from "primeng/dropdown";
     ConfirmDialogModule,
     ProgressBarModule,
     ProgressSpinnerModule,
-    DropdownModule
+    DropdownModule,
+    CheckboxModule,
+    CardModule
   ]
 })
 export class PrimengModule { }

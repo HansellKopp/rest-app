@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem, PrimeIcons } from 'primeng/api';
+import { AuthServiceService } from 'src/app/auth/services/auth-service.service';
 import { PrimengModule } from 'src/app/primeng/primeng.module';
 
 @Component({
@@ -11,9 +13,20 @@ import { PrimengModule } from 'src/app/primeng/primeng.module';
   ]
 })
 export class MenuComponent implements OnInit {
+  private router = inject(Router);
+  private authService = inject(AuthServiceService);
+  
   sidebarVisible: boolean = false;
   icon = PrimeIcons.BARS
   items: MenuItem[] = [];
+
+  logout() {
+    this.authService.logout().subscribe(user=>{
+        if(!user) {
+            this.router.navigateByUrl("/login")
+        }
+    });
+  }
 
   ngOnInit() {
         this.items = [
