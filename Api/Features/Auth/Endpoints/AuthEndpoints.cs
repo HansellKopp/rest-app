@@ -20,9 +20,14 @@ public class AuthEndpointDefinition : IEndpointDefinition
         services.AddDatabaseDeveloperPageExceptionFilter();
     }
 
-    internal static async Task<IResult> CreateUser(UserInfo newUser, UserManager<User> userManager) 
+    internal static async Task<IResult> CreateUser(CreateUserDTO newUser, UserManager<User> userManager) 
     {
-        var result = await userManager.CreateAsync(new() { UserName = newUser.Username }, newUser.Password);
+        var user = new User {
+            FirstName = newUser.FirstName,
+            LastName = newUser.LastName,
+            UserName = newUser.UserName,
+        };
+        var result = await userManager.CreateAsync(user, newUser.Password);
 
        if (result.Succeeded)
             {
@@ -32,9 +37,9 @@ public class AuthEndpointDefinition : IEndpointDefinition
         return TypedResults.ValidationProblem(result.Errors.ToDictionary(e => e.Code, e => new[] { e.Description }));
     }
 
-    internal static async Task<IResult> Authenticate(UserInfo userInfo, UserManager<User> userManager, ITokenService tokenService)
+    internal static async Task<IResult> Authenticate(SigninInfo userInfo, UserManager<User> userManager, ITokenService tokenService)
     {
-        var user = await userManager.FindByNameAsync(userInfo.Username);
+        var user = await userManager.FindByNameAsync(userInfo.UserName);
         if (user is null || !await userManager.CheckPasswordAsync(user, userInfo.Password))
         {
             return TypedResults.BadRequest();
