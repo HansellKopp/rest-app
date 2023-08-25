@@ -3,13 +3,13 @@ import { Injectable, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { environment } from 'src/environments/environment';
 import { AuthRequest, AuthResponse } from '../interfaces/auth.interface';
-import { Observable, catchError, of, tap } from 'rxjs';
+import { Observable, catchError, map, of, tap } from 'rxjs';
 import { User } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthServiceService {
+export class AuthService {
   constructor() { }
   private user: User | undefined;
   private http = inject(HttpClient);
@@ -28,9 +28,13 @@ export class AuthServiceService {
     .pipe(
       tap(response=> {
         if(response.token) {
-          this.user = { username: data.username, roles: ['admin']} 
           localStorage.setItem("token", response.token);
-          this.showSuccessMessage('Successful', 'User logged');
+          this.checkAuthentication().subscribe(response=> {
+            if(response) 
+            {
+              
+            }
+          });
         }
       }),
       catchError((error: HttpErrorResponse) => {
@@ -40,6 +44,30 @@ export class AuthServiceService {
             break;
         }
         return of(undefined)
+      }));
+  }
+
+  checkAuthentication(): Observable<boolean>
+  {
+    if(!localStorage.getItem("token")) 
+    {
+      return of(false);
+    }
+    return this.http.get<User>(`${environment.baseUrl}/auth/me`)
+    .pipe(
+      tap(response=> {
+        if(response!=null) {
+          this.user = {...response} 
+        }
+      }),
+      map(response=> !!response),
+      catchError((error: HttpErrorResponse) => {
+        switch (error.status) {
+          case 400:
+            this.showErrorMessage("Login error", "Unable to login user");
+            break;
+        }
+        return of(false)
       }));
   }
 

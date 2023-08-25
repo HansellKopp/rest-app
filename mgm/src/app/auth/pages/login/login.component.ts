@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthServiceService } from '../../services/auth-service.service';
+import { AuthService } from '../../services/auth-service';
+import { MessageService } from 'primeng/api';
 import { FormControl, FormGroup } from '@angular/forms';
 import { tap } from 'rxjs';
 import { AuthRequest, AuthResponse } from '../../interfaces/auth.interface';
@@ -10,8 +11,10 @@ import { AuthRequest, AuthResponse } from '../../interfaces/auth.interface';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  private url = "/auth";
   private router = inject(Router);
-  private authService = inject(AuthServiceService);
+  private authService = inject(AuthService);
+  private messageService = inject(MessageService);
   public loading: boolean = true;
 
   public loginForm = new FormGroup({
@@ -31,6 +34,7 @@ onSubmit(): void {
       .pipe(          
         tap((result: AuthResponse | undefined)=> {
           if(result) {
+            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'User logged successfuly', life: 3000 }),
             this.router.navigateByUrl("/");
           }
         })

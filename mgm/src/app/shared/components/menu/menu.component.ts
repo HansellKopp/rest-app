@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem, PrimeIcons } from 'primeng/api';
-import { AuthServiceService } from 'src/app/auth/services/auth-service.service';
+import { AuthService } from 'src/app/auth/services/auth-service';
 import { PrimengModule } from 'src/app/primeng/primeng.module';
 
 @Component({
@@ -14,7 +14,8 @@ import { PrimengModule } from 'src/app/primeng/primeng.module';
 })
 export class MenuComponent implements OnInit {
   private router = inject(Router);
-  private authService = inject(AuthServiceService);
+  private authService = inject(AuthService);
+  private isLogged: boolean = false;
   
   sidebarVisible: boolean = false;
   icon = PrimeIcons.BARS
@@ -23,6 +24,7 @@ export class MenuComponent implements OnInit {
   logout() {
     this.authService.logout().subscribe(user=>{
         if(!user) {
+            this.isLogged = false;
             this.router.navigateByUrl("/login")
         }
     });
