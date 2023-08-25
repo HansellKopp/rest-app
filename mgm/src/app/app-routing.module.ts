@@ -1,7 +1,7 @@
 import { NgModule, inject } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Page404Component } from './shared/page404/page404.component';
-import { canActivateGuard, canMatchGuard } from './auth/guards/auth.guard';
+import { canActivateGuard, canMatchGuard, publicGuard } from './auth/guards/auth.guard';
 
 const routes: Routes = [
   { 
@@ -12,9 +12,10 @@ const routes: Routes = [
   },
   { 
     path: "login", 
-    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) 
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+    canActivate: [publicGuard],
+    canMatch: [publicGuard]
   },
-
   {
     path: "404",
     component: Page404Component

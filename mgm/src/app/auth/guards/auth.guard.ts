@@ -1,7 +1,7 @@
 import { inject } from "@angular/core";
 import { CanActivateFn, CanMatchFn, Router } from "@angular/router";
 import { AuthService } from "../services/auth-service";
-import { Observable, of, tap } from "rxjs";
+import { Observable, map, of, tap } from "rxjs";
 
 const checkAuthStatus = (): boolean | Observable<boolean> => {
   const router: Router = inject(Router);
@@ -19,7 +19,6 @@ const checkAuthStatus = (): boolean | Observable<boolean> => {
 export function canActivateGuard(): boolean | Observable<boolean> {
   const router: Router = inject(Router);
   const authService: AuthService = inject(AuthService);
- 
   return checkAuthStatus();
 }
 
@@ -29,3 +28,18 @@ export function canMatchGuard(): CanMatchFn {
     return checkAuthStatus();
   }
 }
+
+export function publicGuard(): Observable<boolean> {
+  const router: Router = inject(Router);
+  const authService: AuthService = inject(AuthService);
+ 
+  return authService.checkAuthentication().pipe(
+    map((isAuthenticated) => !isAuthenticated),
+    tap((isUnAthenticated) => {
+      if (!isUnAthenticated) {
+        router.navigate(['/']);
+      }
+    }),
+  );
+}
+
