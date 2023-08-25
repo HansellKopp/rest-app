@@ -1,11 +1,14 @@
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Page404Component } from './shared/page404/page404.component';
+import { canActivateGuard, canMatchGuard } from './auth/guards/auth.guard';
 
 const routes: Routes = [
   { 
     path: "products", 
-    loadChildren: () => import('./products/products.module').then(m => m.ProductsModule) 
+    canActivate:  [canActivateGuard],
+    canMatch: [canMatchGuard],
+    loadChildren: () => import('./products/products.module').then(m => m.ProductsModule),
   },
   { 
     path: "login", 
