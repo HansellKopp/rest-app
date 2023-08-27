@@ -67,7 +67,6 @@ public sealed class TokenService : ITokenService
 
         identity.AddClaim(new Claim(JwtRegisteredClaimNames.Sub, username));
 
-        // REVIEW: Check that this logic is OK for jti claims
         var id = Guid.NewGuid().ToString().GetHashCode().ToString("x", CultureInfo.InvariantCulture);
 
         identity.AddClaim(new Claim(JwtRegisteredClaimNames.Jti, id));

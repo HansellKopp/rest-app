@@ -23,4 +23,16 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Features\Users\" />
+    <None Remove="Features\Users\Services\" />
+    <None Remove="Features\Users\Models\" />
+    <None Remove="Features\Users\Endpoints\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Features\Users\" />
+    <Folder Include="Features\Users\Services\" />
+    <Folder Include="Features\Users\Models\" />
+    <Folder Include="Features\Users\Endpoints\" />
+  </ItemGroup>
 </Project>

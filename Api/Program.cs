@@ -1,16 +1,22 @@
+using System.Reflection;
 using Api.Db;
 using Api.EndpointDefinitions;
 using Api.Features.Auth.Models;
 using Api.Features.Auth.Services;
 using Microsoft.EntityFrameworkCore;
 
-
 const bool isDevelopment = true;
 
 var builder = WebApplication.CreateBuilder(args);
-// read aditional config
 
-var config = builder.Configuration.AddJsonFile("customSettings.json", optional: true, reloadOnChange: true);
+// Config
+builder.Configuration.Sources.Clear();
+builder.Configuration
+  .AddJsonFile("appsettings.json")
+  .AddJsonFile("appsettings.Development.json", false)
+  .AddUserSecrets(Assembly.GetEntryAssembly()!)
+  .AddEnvironmentVariables();
+
 
 // Connect DB
 builder.Services.AddEntityFrameworkNpgsql().AddDbContext<Dbc>(opt =>
@@ -23,14 +29,16 @@ builder.Services.AddSwaggerGen();
 // Configure identity
 builder.Services.AddIdentityCore<User>()
                 .AddEntityFrameworkStores<Dbc>();
+
 // Cors 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
+    var origins = builder.Configuration.GetSection("AllowedOrigins");
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       builder =>
                       {
-                          builder.WithOrigins("*");
+                          builder.WithOrigins(origins.Value ?? "*");
                       });
 });
 
