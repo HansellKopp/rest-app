@@ -6,12 +6,14 @@ import { PrimengModule } from '../primeng/primeng.module';
 import { ProductEditComponent } from './pages/product-edit/product-edit.component';
 import { ProductsLayoutComponent } from './pages/products-layout/products-layout.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CategoriesListComponent } from './pages/categories-list/categories-list.component';
 
 @NgModule({
   declarations: [
     ProductsListComponent,
     ProductEditComponent,
     ProductsLayoutComponent,
+    CategoriesListComponent,
   ],
   imports: [
     CommonModule,

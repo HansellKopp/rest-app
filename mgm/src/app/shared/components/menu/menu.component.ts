@@ -42,9 +42,9 @@ export class MenuComponent implements OnInit {
                 icon: 'pi pi-fw pi-file',
                 items: [
                     {
-                        label: 'Groups',
+                        label: 'Categories',
                         icon: 'pi list',
-                        routerLink: ['groups']
+                        routerLink: ['products/categories']
 
                     },
                     {

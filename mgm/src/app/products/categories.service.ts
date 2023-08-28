@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable, inject } from '@angular/core';
 import { Category } from './interfaces/category-interface';
 import { environment } from 'src/environments/environment.development';
-import { Observable, map, catchError, of } from 'rxjs';
+import { Observable, map, catchError, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +11,14 @@ export class CategoriesService {
   private http = inject(HttpClient);
 
   getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${environment.baseUrl}/categories`).pipe(
-      map((categories: Category[]) => categories ),
+    return this.http.get<Category[]>(`${environment.baseUrl}/categories`)
+    .pipe(
+      tap(response=> console.log({response})),
+      map((categories: Category[]) => categories ),)
       catchError((error) => {
-        console.log(error)
-        return of([])
-      }));      
+         console.log(error)
+         return of([])
+      });      
   }
 
   addCategory(data: Category): Observable<Category| undefined> {
