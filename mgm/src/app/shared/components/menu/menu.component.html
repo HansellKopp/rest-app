@@ -8,7 +8,11 @@
     </div>
     <div class="flex-grow-1 font-bold text-xl">Rest App</div>
     <div class="p-toolbar-group-end">
-        <p-avatar *ngIf(isLogged) label="HK"  size="large" shape="circle" (click)="logout()"></p-avatar>
-        <p-avatar *ngIf(isLogged) label="HK"  size="large" shape="circle" (click)="logout()"></p-avatar>
+        <p-avatar *ngIf="isLogged(); else notlogged" size="large" shape="circle" (click)="logout()">
+            <span class="text-base font-bold">{{ initials() }}</span>
+        </p-avatar>
+        <ng-template #notlogged>
+            <p-avatar icon="pi pi-user" size="large" shape="circle" />
+        </ng-template>
     </div>
 </p-toolbar>

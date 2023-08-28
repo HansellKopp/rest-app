@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { environment } from 'src/environments/environment';
 import { AuthRequest, AuthResponse } from '../interfaces/auth.interface';
@@ -10,10 +10,14 @@ import { User } from '../interfaces/user.interface';
   providedIn: 'root'
 })
 export class AuthService {
-  constructor() { }
-  private user: User | undefined;
   private http = inject(HttpClient);
   private messageService = inject(MessageService);
+  public user = signal<User | undefined>(undefined)
+
+  clearUser() {
+    this.user.set(undefined)
+    localStorage.clear();
+  }
 
   showErrorMessage(summary: string, detail: string): void {
     this.messageService.add({ severity: "error", summary, detail, life: 3000 })
@@ -24,17 +28,13 @@ export class AuthService {
   }
 
   login(data: AuthRequest): Observable<AuthResponse| undefined> {
+    this.clearUser();
     return this.http.post<AuthResponse>(`${environment.baseUrl}/auth`, data)
     .pipe(
       tap(response=> {
         if(response.token) {
           localStorage.setItem("token", response.token);
-          this.checkAuthentication().subscribe(response=> {
-            if(response) 
-            {
-              
-            }
-          });
+          this.checkAuthentication().subscribe();
         }
       }),
       catchError((error: HttpErrorResponse) => {
@@ -57,11 +57,12 @@ export class AuthService {
     .pipe(
       tap(response=> {
         if(response!=null) {
-          this.user = {...response} 
+          this.user.set({...response})
         }
       }),
       map(response=> !!response),
       catchError((error: HttpErrorResponse) => {
+        this.clearUser();
         switch (error.status) {
           case 400:
             this.showErrorMessage("Login error", "Unable to login user");
@@ -71,16 +72,10 @@ export class AuthService {
       }));
   }
 
-  logout(): Observable<User | undefined> {
-    this.user = undefined;
-    localStorage.removeItem("token");
+  logout() {
+    this.clearUser();
     this.showSuccessMessage('Successful', 'User session closed');
-    return of(this.currentUser());
+    return;
   }
 
-  currentUser() : User | undefined 
-  {
-    if(!this.user) return undefined;
-    return  structuredClone(this.user);
-  }
 }
