@@ -1,19 +1,19 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../interfaces/product-interface';
 import { CategoriesService } from '../../categories.service';
 import { ProductsService } from '../../products.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { delay, switchMap, tap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 import { Category } from '../../interfaces/category-interface';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   templateUrl: './product-edit.component.html',
-  providers: [],
+  providers: [MessageService, ConfirmationService],
   styles: []
 })
-export class ProductEditComponent implements OnInit, OnDestroy {
+export class ProductEditComponent implements OnInit {
   private listUrl = "/products";
   private categoriesUrl = "/categories";
   private router = inject(Router);
@@ -22,6 +22,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   private categoriesService = inject(CategoriesService);
   private messageService = inject(MessageService);
   public loading: boolean = true;
+  private confirmationService = inject(ConfirmationService);
 
   categories: Category[] = []
     
@@ -35,23 +36,29 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   });
   
   ngOnInit(): void {
+    this.loadCategories();
     if ( this.router.url.includes('new') ) {
-      this.loadCategories();
+      this.loading = false;
       return;
     }
     this.activatedRoute.params
       .pipe(
-        delay(300),
         switchMap(({ id }) => {
           return this.productsService.getProductById(id)
         }),
-        tap(()=> this.loadCategories()),
       )
       .subscribe(data => {
         if(!data) return this.router.navigateByUrl(this.listUrl)
         this.productForm.reset(data);
+        this.loading = false;
         return;
     });
+  }
+
+  goProducts() {
+    setTimeout(() => {
+      this.router.navigateByUrl(`${this. listUrl}`);                
+    }, 1000);
   }
 
   loadCategories(): void {
@@ -59,12 +66,25 @@ export class ProductEditComponent implements OnInit, OnDestroy {
         .subscribe(data => {
           if(!data.length) return this.router.navigateByUrl(this.categoriesUrl)
           this.categories = data;
-          this.loading = false;
       return;
   });
   }
 
-  ngOnDestroy(): void {
+  deleteProduct() {
+    this.confirmationService.confirm({
+        message: 'Are you sure you want to delete ' + this.currentProduct .name + '?',
+        header: 'Confirm',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            this.productsService.deleteProductById(this.currentProduct .id).subscribe((success: boolean)=> {
+              if(!success) {
+                return;
+              }
+              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+              this.goProducts();
+            })
+        }
+    });
   }
 
   get currentProduct(): Product {
@@ -77,10 +97,11 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     }
     if(this.currentProduct.id) {
       this.productsService.updateProduct(this.currentProduct)
-        .pipe(          
-          tap((success: boolean)=> {
+      .pipe(          
+        tap((success: boolean)=> {
             if(success) {
               this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product updated', life: 3000 })
+              this.goProducts();
             }
           })
         ).subscribe();
