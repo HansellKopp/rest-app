@@ -1,5 +1,4 @@
 <p-toast></p-toast>
-
     <p-toolbar styleClass="mb-4 gap-2">
         <ng-template pTemplate="left">
             <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="addCategory()"></button>
@@ -39,7 +38,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-category>
         <tr>
-            <td><a routerLink="{{ 'products/categories' + category.id }}">{{ category.name }}</a></td>
+            <td><a routerLink="{{ category.id }}">{{ category.name }}</a></td>
             <td class="flex justify-content-end">
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editCategory(category)"></button>
             </td>

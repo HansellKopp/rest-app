@@ -7,6 +7,7 @@ import { ProductEditComponent } from './pages/product-edit/product-edit.componen
 import { ProductsLayoutComponent } from './pages/products-layout/products-layout.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CategoriesListComponent } from './pages/categories-list/categories-list.component';
+import { CategoryEditComponent } from './pages/category-edit/category-edit.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { CategoriesListComponent } from './pages/categories-list/categories-list
     ProductEditComponent,
     ProductsLayoutComponent,
     CategoriesListComponent,
+    CategoryEditComponent,
   ],
   imports: [
     CommonModule,

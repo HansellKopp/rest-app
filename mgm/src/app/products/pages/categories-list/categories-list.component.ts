@@ -25,7 +25,7 @@ export class CategoriesListComponent {
   }
 
   editCategory(product: Category): void {
-    this.router.navigateByUrl(`/Categories/${product.id}`);
+    this.router.navigateByUrl(`${this.baseUrl}/${product.id}`);
   }
 
   clear(table: Table) {
