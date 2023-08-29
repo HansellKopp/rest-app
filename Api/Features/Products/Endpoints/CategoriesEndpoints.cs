@@ -29,12 +29,11 @@ public class CategoriesEndpointDefinition : IEndpointDefinition
         return TypedResults.Ok(CategoriesDTO);
     }
 
-    internal static async Task<IResult> GetById(int id, Dbc db)
+    internal static async Task<IResult> GetById(Guid id, Dbc db)
     {
-        return Results.Ok(await db.Categories.FindAsync(id)
-                is Category Category
-                    ? TypedResults.Ok((CategoryDTO)Category)
-                    : TypedResults.NotFound());
+        var category = await db.Categories.FindAsync(id);
+        if (!(category is Category)) return TypedResults.NotFound();
+        return TypedResults.Ok((CategoryDTO)category);
     }
 
     internal static async Task<IResult> Create(CategoryDTO CategoryDTO, Dbc db)
@@ -55,7 +54,7 @@ public class CategoriesEndpointDefinition : IEndpointDefinition
         return TypedResults.Created($"/api/Categories/{Category.Id}", (CategoryDTO)Category);
     }
 
-    internal static async Task<IResult> Update(int id, Category inputCategory, Dbc db)
+    internal static async Task<IResult> Update(Guid id, Category inputCategory, Dbc db)
     {
         var Category = await db.Categories.FindAsync(id);
 
@@ -68,13 +67,20 @@ public class CategoriesEndpointDefinition : IEndpointDefinition
         return TypedResults.NoContent();
     }
 
-    internal static async Task<IResult> Delete(int id, Dbc db)
+    internal static async Task<IResult> Delete(Guid id, Dbc db)
     {
         if (await db.Categories.FindAsync(id) is Category Category)
         {
-            db.Categories.Remove(Category);
-            await db.SaveChangesAsync();
-            return TypedResults.Ok(Category);
+            try
+            {
+                db.Categories.Remove(Category);
+                await db.SaveChangesAsync();
+                return TypedResults.Ok(Category);
+            }
+            catch
+            {
+                return TypedResults.Conflict();
+            }
         }
 
         return TypedResults.NotFound();
