@@ -1,8 +1,7 @@
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using Api.Models;
 
-namespace Api.Features.Producs.Models;
+namespace Api.Features.Products.Models;
 public class Category : BaseEntity
 {
     public required string Name { get; set; }

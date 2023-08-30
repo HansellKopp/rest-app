@@ -21,6 +21,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.*-*" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.10" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,11 +29,15 @@
     <None Remove="Features\Users\Services\" />
     <None Remove="Features\Users\Models\" />
     <None Remove="Features\Users\Endpoints\" />
+    <None Remove="Features\Products\Validators\" />
+    <None Remove="Validations\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Features\Users\" />
     <Folder Include="Features\Users\Services\" />
     <Folder Include="Features\Users\Models\" />
     <Folder Include="Features\Users\Endpoints\" />
+    <Folder Include="Features\Products\Validators\" />
+    <Folder Include="Validations\" />
   </ItemGroup>
 </Project>

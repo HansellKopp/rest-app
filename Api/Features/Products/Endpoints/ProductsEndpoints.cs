@@ -1,21 +1,34 @@
 
 using Api.Db;
 using Api.EndpointDefinitions;
-using Api.Features.Producs.Dtos;
-using Api.Features.Producs.Models;
+using Api.Features.Products.Dtos;
+using Api.Features.Products.Models;
+using Api.Features.Products.Validators;
+using Api.Validations;
 using Microsoft.EntityFrameworkCore;
 
-namespace Api.Features.Producs.Endpoints;
+namespace Api.Features.Products.Endpoints;
 public class ProductsEndpointDefinition : IEndpointDefinition
 {
-    readonly String root = "/api/products";
     public void DefineEndpoints(WebApplication app)
     {
-        app.MapGet(root, GetAll);
-        app.MapGet($"{root}/{{id}}", GetById);
-        app.MapPost(root, Create).RequireAuthorization();
-        app.MapPut($"{root}/{{id}}", Update).RequireAuthorization();
-        app.MapDelete($"{root}/{{id}}", Delete).RequireAuthorization();
+        var productGroup = app.MapGroup("/api/products")
+            .RequireAuthorization()
+            .WithGroupName("products");
+
+        productGroup.MapGet("", GetAll);
+
+        productGroup.MapGet($"/{{id}}", GetById);
+
+        productGroup.MapPost("", Create)
+            .AddEndpointFilter<ProductCategoryExist>()
+            .AddEndpointFilter<ValidationFilter<ProductDTO>>();
+            
+
+        productGroup.MapPut($"/{{id}}", Update)
+            .AddEndpointFilter<ValidationFilter<ProductDTO>>();
+
+        productGroup.MapDelete($"/{{id}}", Delete);
     }
 
     public void DefineServices(IServiceCollection services)

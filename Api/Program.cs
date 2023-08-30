@@ -3,11 +3,16 @@ using Api.Db;
 using Api.EndpointDefinitions;
 using Api.Features.Auth.Models;
 using Api.Features.Auth.Services;
+using Api.Features.Products.Dtos;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 const bool isDevelopment = true;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add validators
+builder.Services.AddValidatorsFromAssemblyContaining(typeof(ProductDTO));
 
 // Config
 builder.Configuration.Sources.Clear();

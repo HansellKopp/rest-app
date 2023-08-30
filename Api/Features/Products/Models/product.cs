@@ -1,7 +1,7 @@
 using Api.Models;
-using Api.Features.Producs.Dtos;
 
-namespace Api.Features.Producs.Models;
+namespace Api.Features.Products.Models;
+
 public class Product : BaseEntity
 {
     public required string Name { get; set; }

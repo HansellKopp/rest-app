@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
-using Api.Features.Auth.Models;
-using Api.Features.Producs.Models;
 using Microsoft.EntityFrameworkCore;
 
+using Api.Features.Auth.Models;
+using Api.Features.Products.Models;
 namespace Api.Db;
 
 class Dbc : DbContext

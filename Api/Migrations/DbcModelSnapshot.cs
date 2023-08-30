@@ -82,7 +82,7 @@ namespace Api.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Api.Features.Producs.Models.Category", b =>
+            modelBuilder.Entity("Api.Features.Products.Models.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -117,7 +117,7 @@ namespace Api.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Api.Features.Producs.Models.Product", b =>
+            modelBuilder.Entity("Api.Features.Products.Models.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -163,9 +163,9 @@ namespace Api.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Api.Features.Producs.Models.Product", b =>
+            modelBuilder.Entity("Api.Features.Products.Models.Product", b =>
                 {
-                    b.HasOne("Api.Features.Producs.Models.Category", "Category")
+                    b.HasOne("Api.Features.Products.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -175,7 +175,7 @@ namespace Api.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Api.Features.Producs.Models.Category", b =>
+            modelBuilder.Entity("Api.Features.Products.Models.Category", b =>
                 {
                     b.Navigation("Products");
                 });

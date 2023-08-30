@@ -1,9 +1,10 @@
 using Api.Db;
 using Api.EndpointDefinitions;
-using Api.Features.Producs.Models;
+using Api.Features.Products.Models;
+using Api.Features.Products.Dtos;
 using Microsoft.EntityFrameworkCore;
 
-namespace Api.Features.Producs.Endpoints;
+namespace Api.Features.Products.Endpoints;
 
 public class CategoriesEndpointDefinition : IEndpointDefinition
 {

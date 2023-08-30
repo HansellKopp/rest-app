@@ -1,16 +1,12 @@
-using System.ComponentModel;
-using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using System;
-using Api.Features.Producs.Models;
+using Api.Features.Products.Models;
 
-namespace Api.Features.Producs.Dtos;
+namespace Api.Features.Products.Dtos;
 public class ProductDTO
 {
     public Guid? Id { get; set; }
-    required public string Name { get; set; }
-    required public Double Price { get; set; }
-    required public Double Tax { get; set; }
+    public string Name { get; set; } = "";
+    public Double Price { get; set; }
+    public Double Tax { get; set; }
     public string? Image { get; set; }
     public required CategoryDTO Category { get; set; }
 
