@@ -31,6 +31,7 @@
     <None Remove="Features\Users\Endpoints\" />
     <None Remove="Features\Products\Validators\" />
     <None Remove="Validations\" />
+    <None Remove="Features\Users\Dtos\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Features\Users\" />
@@ -39,5 +40,6 @@
     <Folder Include="Features\Users\Endpoints\" />
     <Folder Include="Features\Products\Validators\" />
     <Folder Include="Validations\" />
+    <Folder Include="Features\Users\Dtos\" />
   </ItemGroup>
 </Project>

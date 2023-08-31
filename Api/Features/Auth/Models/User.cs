@@ -14,14 +14,6 @@ public class SigninInfo
     public required string Password { get; set; }
 }
 
-public class CreateUserDTO
-{
-    public required string UserName { get; set; }
-    public required string FirstName { get; set; } = string.Empty;
-    public required string LastName { get; set; } = string.Empty;
-    public required string Password { get; set; }
-}
-
 public class CurrentUserDTO
 {
     public required string UserName { get; set; } = string.Empty;

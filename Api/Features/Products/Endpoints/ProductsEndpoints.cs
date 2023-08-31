@@ -90,7 +90,7 @@ public class ProductsEndpointDefinition : IEndpointDefinition
         {
             db.Products.Remove(product);
             await db.SaveChangesAsync();
-            return TypedResults.Ok(product);
+            return TypedResults.NoContent();
         }
 
         return TypedResults.NotFound();

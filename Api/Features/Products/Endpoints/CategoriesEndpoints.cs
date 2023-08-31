@@ -76,7 +76,7 @@ public class CategoriesEndpointDefinition : IEndpointDefinition
             {
                 db.Categories.Remove(Category);
                 await db.SaveChangesAsync();
-                return TypedResults.Ok(Category);
+                return TypedResults.NoContent();
             }
             catch
             {
