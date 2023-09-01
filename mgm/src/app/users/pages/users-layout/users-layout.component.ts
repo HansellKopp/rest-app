@@ -2,11 +2,10 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  templateUrl: './products-layout.component.html',
-  styles: []
+  templateUrl: './users-layout.component.html',
 })
-export class ProductsLayoutComponent  {
+export class UsersLayoutComponent {
   private activatedRoute = inject(Router);
   private path = this.activatedRoute.url.split("/");
-  title = (this.path[2] ?? "") === "categories" ? "Categories": "Products";
+  title = (this.path[2] ?? "");
 }

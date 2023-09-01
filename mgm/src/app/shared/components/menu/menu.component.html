@@ -8,7 +8,8 @@
     </div>
     <div class="flex-grow-1 font-bold text-xl">Rest App</div>
     <div class="p-toolbar-group-end">
-        <p-avatar *ngIf="isLogged(); else notlogged" size="large" shape="circle" (click)="logout()">
+        <p-menu #menu [model]="userMenuItems" [popup]="true"></p-menu>
+        <p-avatar *ngIf="isLogged(); else notlogged" size="large" shape="circle" (click)="menu.toggle($event)" >
             <span class="text-base font-bold">{{ initials() }}</span>
         </p-avatar>
         <ng-template #notlogged>

@@ -29,6 +29,7 @@ export class MenuComponent implements OnInit {
   sidebarVisible: boolean = false;
   icon = PrimeIcons.BARS
   items: MenuItem[] = [];
+  userMenuItems: MenuItem[] = [];
 
   logout() {
     this.authService.logout();
@@ -36,6 +37,26 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit() {
+        this.userMenuItems = [
+            {
+            label: 'User options',
+            items: [
+                {
+                    label: 'Profile',
+                    icon: 'pi pi-fw pi-file',
+                    routerLink: ['users/profile']
+                },
+                {
+                    label: 'Logout',
+                    icon: 'pi pi-fw pi-file',
+                    command: () => {
+                        this.logout();
+                    }
+                }
+
+            ]
+        }
+        ]
         this.items = [
             {
                 label: 'Products',
