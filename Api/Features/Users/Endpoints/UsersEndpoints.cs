@@ -1,13 +1,11 @@
 
 using Api.Db;
 using Api.EndpointDefinitions;
-using Api.Validations;
 using Microsoft.EntityFrameworkCore;
 
 using Api.Features.Users.Dtos;
 using Api.Features.Auth.Models;
 using Microsoft.AspNetCore.Identity;
-using Api.Features.Users.Models;
 
 namespace Api.Features.Users.Endpoints;
 public class UsersEndpointDefinition : IEndpointDefinition
@@ -19,6 +17,8 @@ public class UsersEndpointDefinition : IEndpointDefinition
             .WithGroupName("users");
 
         userGroup.MapGet("", GetAll);
+
+        userGroup.MapGet("/profile", GetProfile);
 
         userGroup.MapGet($"/{{id}}", GetById);
 
@@ -65,17 +65,37 @@ public class UsersEndpointDefinition : IEndpointDefinition
         return TypedResults.NoContent();
     }
 
+    internal static async Task<IResult> GetProfile(Dbc db, UserManager<User> userManager, CurrentUser currentUser)
+    {
+        if (currentUser.Principal != null)
+        {
+            var current = await userManager.FindByNameAsync(currentUser.Id);
+            if (current is null) return TypedResults.NotFound();
+            var user = await db.Users.FirstOrDefaultAsync(p => p.Id == current.Id);
+            if (user is null)
+            {
+                return TypedResults.NotFound();
+            }
+            return TypedResults.Ok(((UserDTO)user));
+        }
+        return TypedResults.NotFound();
+    }
+
     internal static async Task<IResult> UpdateProfile(UserDTO userDTO, Dbc db, UserManager<User> userManager,CurrentUser currentUser)
     {
         if (currentUser.Principal != null)
         {
             var current = await userManager.FindByNameAsync(currentUser.Id);
             if (current is null) return TypedResults.NotFound();
-            var user = await db.Users.FirstAsync(p => p.UserName == current.Id);
-            user.LastName = userDTO.LastName;
-            user.Email = userDTO.Email;
-            user.FirstName = userDTO.FirstName;
-            user.PhoneNumber = userDTO.PhoneNumber;
+            var user = await db.Users.FirstOrDefaultAsync(p => p.Id == current.Id);
+            if(user is null)
+            {
+                return TypedResults.BadRequest();
+            }
+            user!.LastName = userDTO.LastName is null ? user.LastName : userDTO.LastName;
+            user!.Email = userDTO.Email is null ? user.Email : userDTO.Email;
+            user!.FirstName = userDTO.FirstName is null ? user.FirstName : userDTO.FirstName;
+            user!.PhoneNumber = userDTO.PhoneNumber is null ? user.PhoneNumber : userDTO.PhoneNumber;
             await db.SaveChangesAsync();
         }
         return TypedResults.NoContent();
