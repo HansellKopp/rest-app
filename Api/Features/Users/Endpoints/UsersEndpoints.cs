@@ -114,7 +114,7 @@ public class UsersEndpointDefinition : IEndpointDefinition
     }
 
 
-    internal static async Task<IResult> Create(UserDTO newUser, UserManager<User> userManager)
+    internal static async Task<IResult> Create(CreateUserDTO newUser, UserManager<User> userManager)
     {
         var user = new User
         {
