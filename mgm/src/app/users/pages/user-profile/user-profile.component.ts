@@ -3,9 +3,8 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { tap } from 'rxjs';
 import { MessageService } from 'primeng/api';
-import { UserService } from '../../users-service';
-import { User } from 'src/app/auth/interfaces/user.interface';
-import { AuthService } from 'src/app/auth/services/auth-service';
+import { UsersService } from '../../users-service';
+import { User } from '../../interfaces/user.interface';
 
 @Component({
   templateUrl: './user-profile.component.html',
@@ -13,8 +12,7 @@ import { AuthService } from 'src/app/auth/services/auth-service';
 })
 export class UserProfileComponent implements OnInit {
   private router = inject(Router);
-  private userService = inject(UserService);
-  private authService = inject(AuthService);
+  private usersService = inject(UsersService);
   private messageService = inject(MessageService);
   public loading: boolean = true;
     
@@ -27,17 +25,13 @@ export class UserProfileComponent implements OnInit {
   });
   
   ngOnInit(): void {
-      const id = "1";
-      const user = this.authService.user()
-      if(id) {
-        this.userService.getUserProfile()
-        .subscribe(data => {
-          if(!data) return this.router.navigateByUrl("/")
-          this.profileForm.reset(data);
-          this.loading = false;
-          return;
-        });
-      }
+    this.usersService.getUserProfile()
+      .subscribe(data => {
+        if(!data) return this.router.navigateByUrl("/")
+        this.profileForm.reset(data);
+        this.loading = false;
+        return;
+      });
   }
 
   get currentProfile(): User {
@@ -48,7 +42,7 @@ export class UserProfileComponent implements OnInit {
     if(!this.profileForm.valid) {
       return;
     }
-    this.userService.updateProfile(this.currentProfile)
+    this.usersService.updateProfile(this.currentProfile)
       .pipe(          
         tap((success: boolean)=> {
             if(success) {
@@ -62,7 +56,3 @@ export class UserProfileComponent implements OnInit {
     this.router.navigateByUrl("")
   }
 }
-function computed(arg0: () => any) {
-  throw new Error('Function not implemented.');
-}
-

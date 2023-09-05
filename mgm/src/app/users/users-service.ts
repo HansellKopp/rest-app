@@ -3,12 +3,12 @@ import { Injectable, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Observable, map, catchError, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { User } from '../auth/interfaces/user.interface';
+import { User } from './interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UsersService {
   private http = inject(HttpClient);
   private messageService = inject(MessageService);
   showErrorMessage(summary: string, detail: string): void {
