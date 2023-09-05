@@ -1,21 +1,25 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { environment } from 'src/environments/environment';
 import { AuthRequest, AuthResponse } from '../interfaces/auth.interface';
 import { Observable, catchError, map, of, tap } from 'rxjs';
 import { User } from '../interfaces/user.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private http = inject(HttpClient);
+  private router: Router = inject(Router);
   private messageService = inject(MessageService);
   public user = signal<User | undefined>(undefined)
+  public isLogged = signal<boolean>(false)
 
   clearUser() {
-    this.user.set(undefined)
+    this.isLogged.set(false);
+    this.user.set(undefined);
     localStorage.clear();
   }
 
@@ -33,8 +37,10 @@ export class AuthService {
     .pipe(
       tap(response=> {
         if(response.token) {
+          this.isLogged.set(true);
           localStorage.setItem("token", response.token);
-          this.checkAuthentication().subscribe();
+          this.getCurrentUser();
+          this.router.navigate(['/']);
         }
       }),
       catchError((error: HttpErrorResponse) => {
@@ -47,17 +53,19 @@ export class AuthService {
       }));
   }
 
-  checkAuthentication(): Observable<boolean>
+  getCurrentUser(): void
   {
     if(!localStorage.getItem("token")) 
     {
-      return of(false);
+      this.clearUser();
+      return
     }
-    return this.http.get<User>(`${environment.baseUrl}/auth/me`)
+    this.http.get<User>(`${environment.baseUrl}/auth/me`)
     .pipe(
       tap(response=> {
         if(response!=null) {
-          this.user.set({...response})
+          this.isLogged.set(true);
+          this.user.set({...response});
         }
       }),
       map(response=> !!response),
@@ -69,7 +77,7 @@ export class AuthService {
             break;
         }
         return of(false)
-      }));
+      })).subscribe();
   }
 
   logout() {

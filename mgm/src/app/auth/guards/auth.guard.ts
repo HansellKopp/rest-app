@@ -3,43 +3,31 @@ import { CanActivateFn, CanMatchFn, Router } from "@angular/router";
 import { AuthService } from "../services/auth-service";
 import { Observable, map, of, tap } from "rxjs";
 
-const checkAuthStatus = (): boolean | Observable<boolean> => {
+const checkAuthStatus = (): boolean => {
   const router: Router = inject(Router);
   const authService: AuthService = inject(AuthService);
- 
-  return authService.checkAuthentication().pipe(
-    tap((isAuthenticated) => {
-      if (!isAuthenticated) {
-        router.navigate(['/login']);
-      }
-    })
-  );
+  const isLogged = authService.isLogged()
+  if(!isLogged)
+  {
+    router.navigate(['/login']);
+  }
+  return isLogged;
 };
 
-export function canActivateGuard(): boolean | Observable<boolean> {
-  const router: Router = inject(Router);
-  const authService: AuthService = inject(AuthService);
-  return checkAuthStatus();
+export function canActivateGuard(): boolean  {
+  return checkAuthStatus()
 }
 
 export function canMatchGuard(): CanMatchFn {
   return () => {
-    const oauthService: AuthService = inject(AuthService);    
     return checkAuthStatus();
   }
 }
 
-export function publicGuard(): Observable<boolean> {
+export function publicGuard(): boolean {
   const router: Router = inject(Router);
   const authService: AuthService = inject(AuthService);
- 
-  return authService.checkAuthentication().pipe(
-    map((isAuthenticated) => !isAuthenticated),
-    tap((isUnAthenticated) => {
-      if (!isUnAthenticated) {
-        router.navigate(['/']);
-      }
-    }),
-  );
+  const isLogged = authService.isLogged()
+  return !isLogged
 }
 
