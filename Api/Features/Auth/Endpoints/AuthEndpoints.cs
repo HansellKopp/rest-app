@@ -43,14 +43,15 @@ public class AuthEndpointDefinition : IEndpointDefinition
         return TypedResults.BadRequest();
     }
 
-    internal static async Task<IResult> Authenticate(SigninInfo userInfo, UserManager<User> userManager, ITokenService tokenService)
+    internal static async Task<IResult> Authenticate(SigninInfo userInfo, UserManager<User> userManager, ITokenService tokenService, IConfiguration config)
     {
+        var minutes = int.Parse(config["Authentication:DurationMinutes"] ?? "30");
         var user = await userManager.FindByNameAsync(userInfo.UserName);
         if (user is null || !await userManager.CheckPasswordAsync(user, userInfo.Password))
         {
             return TypedResults.BadRequest();
         }
-        return TypedResults.Ok(new AuthToken(tokenService.GenerateToken(user.UserName!)));
+        return TypedResults.Ok(new AuthToken(tokenService.GenerateToken(user.UserName!, DateTime.UtcNow.AddMinutes(minutes))));
 
     }
 }

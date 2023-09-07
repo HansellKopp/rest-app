@@ -23,7 +23,7 @@ public class ProductsEndpointDefinition : IEndpointDefinition
         productGroup.MapPost("", Create)
             .AddEndpointFilter<ProductCategoryExist>()
             .AddEndpointFilter<ValidationFilter<ProductDTO>>();
-            
+
 
         productGroup.MapPut($"/{{id}}", Update)
             .AddEndpointFilter<ValidationFilter<ProductDTO>>();
@@ -69,7 +69,7 @@ public class ProductsEndpointDefinition : IEndpointDefinition
         return TypedResults.Created($"/api/products/{product.Id}", (ProductDTO)product);
     }
 
-    internal static async Task<IResult> Update(Guid id, Product inputProduct, Dbc db)
+    internal static async Task<IResult> Update(Guid id, ProductDTO inputProduct, Dbc db)
     {
         var product = await db.Products.FindAsync(id);
 
