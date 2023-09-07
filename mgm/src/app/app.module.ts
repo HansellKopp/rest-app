@@ -17,6 +17,8 @@ import { registerLocaleData } from "@angular/common";
 import { MessageService } from 'primeng/api';
 import { GlobalErrorHandler } from './shared/utils/global-error-handler';
 import { AuthInterceptor } from './shared/utils/auth.interceptor';
+import { ServerErrorInterceptor } from './shared/utils/server-error.interceptor';
+
 
 registerLocaleData(localeEsVe);
 
@@ -36,12 +38,16 @@ registerLocaleData(localeEsVe);
   providers: [
     { provide: LOCALE_ID, useValue: 'es-VE'},
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
-    AuthInterceptor,
-      {
-        provide: HTTP_INTERCEPTORS,
-        useClass: AuthInterceptor,
-        multi: true
-      },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ServerErrorInterceptor,
+      multi: true
+    },
     MessageService
   ],
   bootstrap: [AppComponent]
