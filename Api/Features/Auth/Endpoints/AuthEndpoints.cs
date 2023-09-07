@@ -45,7 +45,7 @@ public class AuthEndpointDefinition : IEndpointDefinition
 
     internal static async Task<IResult> Authenticate(SigninInfo userInfo, UserManager<User> userManager, ITokenService tokenService, IConfiguration config)
     {
-        var minutes = int.Parse(config["Authentication:DurationMinutes"] ?? "30");
+        var minutes = int.Parse(config["Authentication:DurationMinutes"] ?? "1");
         var user = await userManager.FindByNameAsync(userInfo.UserName);
         if (user is null || !await userManager.CheckPasswordAsync(user, userInfo.Password))
         {
