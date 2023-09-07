@@ -1,1 +1,58 @@
-<p>users-list works!</p>
+<p-toast></p-toast>
+    <p-toolbar styleClass="mb-4 gap-2">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="addUser()"></button>
+        </ng-template>
+    
+        <ng-template pTemplate="right">
+            <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table
+        #dt1
+        dataKey="id"
+        [value]="users" [tableStyle]="{ 'min-width': '50rem' }"
+        [paginator]="true"
+        [rows]="5"
+        [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [globalFilterFields]="['user', 'firstName', 'lastName', 'email']"
+    >
+    <ng-template pTemplate="caption">
+        <div class="flex">
+            <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
+            <span class="p-input-icon-left ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="filter($event,dt1)" placeholder="Search keyword" />
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="userName">Username<p-sortIcon field="userName"></p-sortIcon></th>
+            <th pSortableColumn="firstName">Firstname<p-sortIcon field="firstName"></p-sortIcon></th>
+            <th pSortableColumn="lastName">Lastname<p-sortIcon field="lastName"></p-sortIcon></th>
+            <th>Email</th>
+            <th>Phonenumber</th>
+            <th>Admin</th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+        <tr>
+            <td><a routerLink="{{ '/users/' + user.id }}">{{ user.userName }}</a></td>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.phoneNumber }}</td>
+            <td>{{ user.isAdmin }}</td>
+            <td class="flex justify-content-end">
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editUser(user)"></button>
+            </td>
+        </tr>
+    </ng-template>
+    </p-table>
+

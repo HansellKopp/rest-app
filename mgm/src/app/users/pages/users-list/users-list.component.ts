@@ -13,6 +13,7 @@ export class UsersListComponent {
   private usersService = inject(UsersService);
   users: User[] = [];
 
+
   ngOnInit(): void {
     this.usersService.getUsers().subscribe(value=> this.users = value);
   }
@@ -21,8 +22,8 @@ export class UsersListComponent {
     this.router.navigateByUrl(`${this.baseUrl}/new`);
   }
 
-  editUser(product: User): void {
-    this.router.navigateByUrl(`${this.baseUrl}/${product.id}`);
+  editUser(user: User): void {
+    this.router.navigateByUrl(`${this.baseUrl}/${user.id}`);
   }
 
   clear(table: Table) {

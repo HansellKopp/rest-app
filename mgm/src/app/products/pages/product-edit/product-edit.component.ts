@@ -14,7 +14,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   styles: []
 })
 export class ProductEditComponent implements OnInit {
-  private listUrl = "/products";
+  listUrl = "/products";
   private categoriesUrl = "/categories";
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);

@@ -12,7 +12,7 @@ import { Category } from '../../interfaces/category-interface';
   providers: [MessageService, ConfirmationService]
 })
 export class CategoryEditComponent implements OnInit {
-  private listUrl = "/products/categories";
+  listUrl = "/products/categories";
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private categoriesService = inject(CategoriesService);
