@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
+using Api.Features.Auth.Models;
 
-namespace Api.Features.Auth.Models;
+namespace Api.Features.Auth.Services;
 
 // A scoped service that exposes the current user information
 public class CurrentUser

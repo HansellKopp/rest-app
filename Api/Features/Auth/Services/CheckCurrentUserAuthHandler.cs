@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 
-namespace Api.Features.Auth.Models;
+namespace Api.Features.Auth.Services;
 
 public static class AuthorizationHandlerExtensions
 {

@@ -25,7 +25,8 @@ builder.Configuration
 
 // Connect DB
 builder.Services.AddEntityFrameworkNpgsql().AddDbContext<Dbc>(opt =>
-        opt.UseNpgsql(builder.Configuration.GetConnectionString("db")));
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("db")));
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // add documentation helpers
 builder.Services.AddEndpointsApiExplorer();
@@ -33,7 +34,7 @@ builder.Services.AddSwaggerGen();
 
 // Configure identity
 builder.Services.AddIdentityCore<User>()
-                .AddEntityFrameworkStores<Dbc>();
+    .AddEntityFrameworkStores<Dbc>();
 
 // Cors 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -62,7 +63,12 @@ builder.Services.AddCurrentUser();
 
 // Authorization service
 builder.Services.AddAuthorization();
+
+// Add Users service
+builder.Services.AddScoped<IUsersService, UsersService>();
+
 var app = builder.Build();
+
 
 app.UseCors();
 

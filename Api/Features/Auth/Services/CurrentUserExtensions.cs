@@ -1,9 +1,9 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Api.Features.Auth.Models;
 
-namespace Api.Features.Auth.Models;
-
+namespace Api.Features.Auth.Services;
 public static class CurrentUserExtensions
 {
     public static IServiceCollection AddCurrentUser(this IServiceCollection services)

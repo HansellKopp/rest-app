@@ -1,11 +1,8 @@
 
-using Api.Db;
 using Api.EndpointDefinitions;
-using Microsoft.EntityFrameworkCore;
-
 using Api.Features.Users.Dtos;
 using Api.Features.Auth.Models;
-using Microsoft.AspNetCore.Identity;
+using Api.Features.Auth.Services;
 
 namespace Api.Features.Users.Endpoints;
 public class UsersEndpointDefinition : IEndpointDefinition
@@ -32,100 +29,74 @@ public class UsersEndpointDefinition : IEndpointDefinition
     }
 
     public void DefineServices(IServiceCollection services)
-    {
-        services.AddDatabaseDeveloperPageExceptionFilter();
+    { 
     }
 
-    internal static async Task<IResult> GetAll(Dbc db)
+    internal static async Task<IResult> GetAll(IUsersService users)
     {
-        var Users = await db.Users.ToListAsync();
-        var UserDTOs = Users.Select(p => (UserDTO)p).ToList();
-        return TypedResults.Ok(UserDTOs);
+        var u = await users.GetAll();
+        return TypedResults.Ok(u.Select(p=> (UserDTO)p).ToList());
     }
 
-    internal static async Task<IResult> GetById(Guid id, Dbc db)
+    internal static async Task<IResult> GetById(Guid id, IUsersService users)
     {
-        var user = await db.Users.FindAsync(id.ToString());
+        var user = await users.GetById(id.ToString());
         if (user is null) return TypedResults.NotFound();
         return TypedResults.Ok(((UserDTO)user));
     }
 
-    internal static async Task<IResult> Update(Guid id, UserDTO userDTO, Dbc db)
+    internal static async Task<IResult> Update(Guid id, UserDTO userDTO, IUsersService users)
     {
-        var user = await db.Users.FindAsync(id.ToString());
+        var success = await users.Update(id.ToString(), userDTO);
 
-        if (user is null) return TypedResults.NotFound();
-
-        user.LastName = userDTO.LastName;
-        user.Email = userDTO.Email;
-        user.FirstName = userDTO.FirstName;
-        user.PhoneNumber = userDTO.PhoneNumber;
-        await db.SaveChangesAsync();
+        if (!success) return TypedResults.NotFound();
 
         return TypedResults.NoContent();
     }
 
-    internal static async Task<IResult> GetProfile(Dbc db, UserManager<User> userManager, CurrentUser currentUser)
+    internal static async Task<IResult> GetProfile(IUsersService users, CurrentUser currentUser)
     {
-        if (currentUser.Principal != null)
+        if (currentUser.Principal is null)
         {
-            var current = await userManager.FindByNameAsync(currentUser.Id);
-            if (current is null) return TypedResults.NotFound();
-            var user = await db.Users.FirstOrDefaultAsync(p => p.Id == current.Id);
-            if (user is null)
-            {
-                return TypedResults.NotFound();
-            }
-            return TypedResults.Ok(((UserDTO)user));
+            return TypedResults.BadRequest();
         }
-        return TypedResults.NotFound();
-    }
+        var user = await users.GetProfile(currentUser);
+        if (user is null)
+        {
+            return TypedResults.NotFound();
+        }
+        return TypedResults.Ok((user));
+    }    
 
-    internal static async Task<IResult> UpdateProfile(UserDTO userDTO, Dbc db, UserManager<User> userManager,CurrentUser currentUser)
+    internal static async Task<IResult> UpdateProfile(UserDTO userDTO, CurrentUser currentUser, IUsersService users)
     {
-        if (currentUser.Principal != null)
+        if (currentUser.Principal is null)
         {
-            var current = await userManager.FindByNameAsync(currentUser.Id);
-            if (current is null) return TypedResults.NotFound();
-            var user = await db.Users.FirstOrDefaultAsync(p => p.Id == current.Id);
-            if(user is null)
-            {
-                return TypedResults.BadRequest();
-            }
-            user!.LastName = userDTO.LastName is null ? user.LastName : userDTO.LastName;
-            user!.Email = userDTO.Email is null ? user.Email : userDTO.Email;
-            user!.FirstName = userDTO.FirstName is null ? user.FirstName : userDTO.FirstName;
-            user!.PhoneNumber = userDTO.PhoneNumber is null ? user.PhoneNumber : userDTO.PhoneNumber;
-            await db.SaveChangesAsync();
+            return TypedResults.BadRequest();
         }
+        var result = await users.UpdateProfile(currentUser, userDTO);
+        if(result == false)
+        {
+          return TypedResults.BadRequest();
+        }
+
         return TypedResults.NoContent();
     }
 
-    internal static async Task<IResult> Delete(Guid id, Dbc db)
+    internal static async Task<IResult> Delete(Guid id, IUsersService users)
     {
-        if (await db.Users.FindAsync(id.ToString()) is User user)
+        var result = await users.Delete(id.ToString());
+        if(result)
         {
-            db.Users.Remove(user);
-            await db.SaveChangesAsync();
             return TypedResults.NoContent();
         }
-
         return TypedResults.NotFound();
     }
 
 
-    internal static async Task<IResult> Create(CreateUserDTO newUser, UserManager<User> userManager)
+    internal static async Task<IResult> Create(CreateUserDTO newUser, IUsersService users)
     {
-        var user = new User
-        {
-            UserName = newUser.UserName,
-            FirstName = newUser.FirstName,
-            LastName = newUser.LastName,
-            Email = newUser.Email,
-            PhoneNumber = newUser.PhoneNumber,
-        };
-        var result = await userManager.CreateAsync(user, newUser.Password);
-
+        var result = await users.Add(newUser);
         if (result.Succeeded)
         {
             return TypedResults.Ok();

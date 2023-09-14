@@ -5,7 +5,7 @@ using Api.Features.Auth.Models;
 using Api.Features.Products.Models;
 namespace Api.Db;
 
-class Dbc : DbContext
+public class Dbc : DbContext
 {
     public Dbc(DbContextOptions<Dbc> options)
         : base(options)

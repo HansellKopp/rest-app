@@ -1,5 +1,4 @@
 
-
 using Api.EndpointDefinitions;
 using Api.Features.Auth.Models;
 using Api.Features.Auth.Services;
@@ -14,6 +13,7 @@ public class AuthEndpointDefinition : IEndpointDefinition
     {
         app.MapPost($"{root}/auth", Authenticate);
         app.MapGet($"{root}/auth/me", GetCurrentUser);
+        app.MapGet($"{root}/auth/refresh-token", RefreshToken);
     }
 
     public void DefineServices(IServiceCollection services)
@@ -21,37 +21,59 @@ public class AuthEndpointDefinition : IEndpointDefinition
         services.AddDatabaseDeveloperPageExceptionFilter();
     }
 
-    internal static async Task<IResult> GetCurrentUser(UserManager<User> userManager, CurrentUser currentUser)
+    public async Task<IResult> RefreshToken(HttpContext context, UserManager<User> userManager, CurrentUser currentUser, ITokenService tokenService, IUsersService users)
     {
-        if(currentUser.Principal != null)
-        {
-            var user = await userManager.FindByNameAsync(currentUser.Id);
-            if(user !=null)
-            {
-                CurrentUserDTO me = new CurrentUserDTO
-                {
-                    UserName = user.UserName!,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    IsAdmin = currentUser.IsAdmin,
-                    Email = user.Email!
-                };
-                return TypedResults.Ok(me);
-            }
+        var Request = context.Request;
+        var refreshToken = Request.Cookies["refreshToken"];
 
+        if (refreshToken is null)
+        {
+            return TypedResults.Unauthorized(); // Refresh token is not present
         }
-        return TypedResults.BadRequest();
+
+        var user = await users.GetByRefreshToken(refreshToken);
+        if (user == null)
+        {
+            return TypedResults.Unauthorized(); // Invalid user
+        }
+        if (user.TokenExpires < DateTime.Now)
+        {
+            return TypedResults.Unauthorized(); // Invalid Token
+        }
+        var token = tokenService.GenerateToken(user);
+        var newRefreshToken = tokenService.GenerateRefreshToken();
+        tokenService.SetRefreshToken(context.Response, newRefreshToken);
+        await users.SetRefreshToken(user, newRefreshToken);
+        return TypedResults.Ok(token);
     }
 
-    internal static async Task<IResult> Authenticate(SigninInfo userInfo, UserManager<User> userManager, ITokenService tokenService, IConfiguration config)
+    internal static async Task<IResult> GetCurrentUser(IUsersService users, CurrentUser currentUser)
     {
-        var minutes = int.Parse(config["Authentication:DurationMinutes"] ?? "1");
+        if (currentUser.Principal is null)
+        {
+            return TypedResults.BadRequest();
+        }
+        var user = await users.GetProfile(currentUser);
+        if (user is null)
+        {
+            return TypedResults.NotFound();
+        }
+        return TypedResults.Ok((user));
+    }
+
+    internal static async Task<IResult> Authenticate(SigninInfo userInfo, UserManager<User> userManager, ITokenService tokenService, HttpContext context, IUsersService users)
+    {
         var user = await userManager.FindByNameAsync(userInfo.UserName);
         if (user is null || !await userManager.CheckPasswordAsync(user, userInfo.Password))
         {
             return TypedResults.BadRequest();
         }
-        return TypedResults.Ok(new AuthToken(tokenService.GenerateToken(user.UserName!, DateTime.UtcNow.AddMinutes(minutes))));
+        var token = tokenService.GenerateToken(user);
+
+        var newRefreshToken = tokenService.GenerateRefreshToken();
+        tokenService.SetRefreshToken(context.Response, newRefreshToken);
+        await users.SetRefreshToken(user, newRefreshToken);
+        return TypedResults.Ok(token);
 
     }
 }
