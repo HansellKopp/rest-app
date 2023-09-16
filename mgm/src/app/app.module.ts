@@ -17,7 +17,8 @@ import { registerLocaleData } from "@angular/common";
 import { MessageService } from 'primeng/api';
 import { GlobalErrorHandler } from './shared/utils/global-error-handler';
 import { AuthInterceptor } from './shared/utils/auth.interceptor';
-import { ServerErrorInterceptor } from './shared/utils/server-error.interceptor';
+import { TotestComponent } from './shared/totest/totest.component';
+import { httpInterceptorProviders } from './shared/utils/http-request.interceptor';
 
 
 registerLocaleData(localeEsVe);
@@ -25,6 +26,7 @@ registerLocaleData(localeEsVe);
 @NgModule({
   declarations: [
     AppComponent,
+    TotestComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,11 +45,7 @@ registerLocaleData(localeEsVe);
       useClass: AuthInterceptor,
       multi: true
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ServerErrorInterceptor,
-      multi: true
-    },
+    httpInterceptorProviders,
     MessageService
   ],
   bootstrap: [AppComponent]

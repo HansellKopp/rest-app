@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { 
   HttpEvent, HttpRequest, HttpHandler, 
-  HttpInterceptor 
+  HttpInterceptor, 
+  HTTP_INTERCEPTORS
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -17,6 +18,13 @@ export class AuthInterceptor implements HttpInterceptor {
       });
       return next.handle(clonedRequest);    
     }
-    return next.handle(request)
+    return next.handle(request);
   }
 }
+
+export const authInterceptorProviders = [
+{
+  provide: HTTP_INTERCEPTORS,
+  useClass: AuthInterceptor,
+  multi: true
+}];

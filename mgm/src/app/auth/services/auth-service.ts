@@ -86,4 +86,16 @@ export class AuthService {
     return;
   }
 
+  refreshToken() {
+    return this.http.get<AuthResponse>(`${environment.baseUrl}/auth/refresh-token`)
+    .pipe(
+      tap(response=> {
+        if(response.token) {
+          this.isLogged.set(true);
+          localStorage.setItem("token", response.token);
+        } else {
+          this.clearUser();
+        }
+      }));
+  }
 }
