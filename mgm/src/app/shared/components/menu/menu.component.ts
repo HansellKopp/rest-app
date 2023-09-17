@@ -9,12 +9,7 @@ import { PrimengModule } from 'src/app/primeng/primeng.module';
   selector: 'shared-menu',
   templateUrl: './menu.component.html',
   standalone: true,
-  styles: [`
-    :host ::ng-deep .p-toolbar {
-        border-radius: 0;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.12) !important;
-    } 
-  `],
+  styleUrls: ['./menu.component.scss'],
   imports: [
     PrimengModule,
     NgIf, JsonPipe

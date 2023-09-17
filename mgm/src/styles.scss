@@ -5,6 +5,16 @@ body {
     font-family: var(--font-family);
     margin: 0;
 }
-p-toolbar {
-    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.12), 0px 4px 5px rgba(0, 0, 0, 0.14), 0px 2px 4px -1px rgba(0, 0, 0, 0.2) !important;
+:root {
+    --blue-600: #274472;
+    --blue-500: #41729F;
+    --blue-400: #5885AF;
+    --blue-300: #C3E0E5;
+}
+
+:root {
+    .p-panel-header {
+        color: #fff;
+        background-color: var(--blue-500);
+    }
 }

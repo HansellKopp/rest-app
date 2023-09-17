@@ -1,0 +1,23 @@
+:host ::ng-deep {
+    .p-toolbar {
+        border-radius: 0;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.12) !important;
+        background-color: var(--blue-600);
+        color: white;
+        border: 1px solid black;
+    }
+    .p-button.p-button-text {
+        color: white;
+        background-color: transparent;
+    }
+    .p-menu {
+        border: none;
+    }
+    .p-sidebar-left {
+        width: 15rem;
+    }
+    .p-avatar.p-avatar-circle {
+        color: black;
+        background-color: var(--blue-300);
+    }
+}

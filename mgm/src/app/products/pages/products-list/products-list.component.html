@@ -1,14 +1,9 @@
 <p-toast></p-toast>
 
-    <p-toolbar styleClass="mb-4 gap-2">
-        <ng-template pTemplate="left">
-            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="addProduct()"></button>
-        </ng-template>
-    
-        <ng-template pTemplate="right">
-            <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
-        </ng-template>
-    </p-toolbar>
+    <div class="mb-2 flex justify-content-between">
+        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="addProduct()"></button>
+        <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+    </div>
 
     <p-table
         #dt1
