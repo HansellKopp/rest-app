@@ -69,7 +69,6 @@ builder.Services.AddScoped<IUsersService, UsersService>();
 
 var app = builder.Build();
 
-
 app.UseCors();
 
 // use Authentication + authorization services

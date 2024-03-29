@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RippleModule } from 'primeng/ripple';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import localesEs from "@angular/common/locales/es";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,7 +13,6 @@ import { PrimengModule } from './primeng/primeng.module';
 
 // register locals
 import localeEsVe from "@angular/common/locales/es-VE";
-//import localeDeDeu from "@angular/common/locales/de-AT";
 import { registerLocaleData } from "@angular/common";
 import { MessageService } from 'primeng/api';
 import { GlobalErrorHandler } from './shared/utils/global-error-handler';

@@ -10,6 +10,15 @@
           "style": "scss"
         }
       },
+      "i18n": {
+        "sourceLocale":"en-US",
+        "locales": {
+          "es": {
+            "translation": "src/local/messages.es.xlf",
+            "baseHref": "/es/"
+          }
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -36,7 +45,9 @@
             "src/assets/theme.css",
             "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "localize":true,
+            "i18nMissingTranslation": "error"
           },
           "configurations": {
             "production": {
@@ -61,12 +72,16 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
+              "localize":true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.development.ts"
                 }
               ]
+            },
+            "es":{
+              "localize": ["es"]
             }
           },
           "defaultConfiguration": "production"
@@ -79,6 +94,9 @@
             },
             "development": {
               "browserTarget": "mgm:build:development"
+            },
+            "es": {
+              "browserTarget": "mgm:build:development,es"
             }
           },
           "defaultConfiguration": "development",

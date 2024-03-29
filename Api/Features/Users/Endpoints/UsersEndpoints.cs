@@ -1,7 +1,6 @@
 
 using Api.EndpointDefinitions;
 using Api.Features.Users.Dtos;
-using Api.Features.Auth.Models;
 using Api.Features.Auth.Services;
 
 namespace Api.Features.Users.Endpoints;
@@ -10,7 +9,7 @@ public class UsersEndpointDefinition : IEndpointDefinition
     public void DefineEndpoints(WebApplication app)
     {
         var userGroup = app.MapGroup("/api/users")
-            .RequireAuthorization()
+            //.RequireAuthorization()
             .WithGroupName("users");
 
         userGroup.MapGet("", GetAll);
