@@ -90,13 +90,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "mgm:build:production"
+              "buildTarget": "mgm:build:production"
             },
             "development": {
-              "browserTarget": "mgm:build:development"
+              "buildTarget": "mgm:build:development"
             },
             "es": {
-              "browserTarget": "mgm:build:development,es"
+              "buildTarget": "mgm:build:development,es"
             }
           },
           "defaultConfiguration": "development",
@@ -107,7 +107,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "mgm:build"
+            "buildTarget": "mgm:build"
           }
         },
         "test": {
