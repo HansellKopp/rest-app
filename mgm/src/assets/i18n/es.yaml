@@ -17,3 +17,24 @@ SHARED:
       TITLE: "Usuarios"
       NEW: "Nuevo usuarsio"
       LIST: "Lista de usuarios"
+CATEGORIES:
+  SEARCH: "Buscar categoría"
+  SEARCH_CLEAR: "Limpiar"
+  TITLE: "Categorías"
+  NEW: "Nueva categoría"
+  LIST: "Lista de categorías"
+  EXPORT: "Exportar"
+  TABLE:
+    CATEGORY: "Categoría"
+PRODUCTS:
+  SEARCH: "Buscar producto"
+  SEARCH_CLEAR: "Limpiar"
+  TITLE: "Productos"
+  NEW: "Nuevo producto"
+  LIST: "Lista de productos"
+  EXPORT: "Exportar"
+  TABLE:
+    NAME: "Nombre"
+    CATEGORY: "Categoría"
+    PRICE: "Precio"
+    TAX: "Impuesto"

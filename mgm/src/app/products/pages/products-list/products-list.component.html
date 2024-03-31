@@ -1,8 +1,8 @@
 <p-toast></p-toast>
 
     <div class="mb-2 flex justify-content-between">
-        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="addProduct()"></button>
-        <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+        <button pButton pRipple label="{{'PRODUCTS.NEW' | translate }}" icon="pi pi-plus" class="p-button-success mr-2" (click)="addProduct()"></button>
+        <button pButton pRipple label="{{'PRODUCTS.EXPORT' | translate }}" icon="pi pi-upload" class="p-button-help"></button>
     </div>
 
     <p-table
@@ -13,25 +13,25 @@
         [rows]="5"
         [showCurrentPageReport]="true"
         [tableStyle]="{ 'min-width': '50rem' }"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        currentPageReportTemplate="{first} - {last} total {totalRecords}"
         [rowsPerPageOptions]="[10, 25, 50]"
         [globalFilterFields]="['name', 'categoryName']"
     >
     <ng-template pTemplate="caption">
         <div class="flex">
-            <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
+            <button pButton label="{{'PRODUCTS.SEARCH_CLEAR' | translate }}" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
             <span class="p-input-icon-left ml-auto">
                 <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="filter($event,dt1)" placeholder="Search keyword" />
+                <input pInputText type="text" (input)="filter($event,dt1)" placeholder="{{'PRODUCTS.SEARCH' | translate }}" />
             </span>
         </div>
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
-            <th pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon></th>
-            <th pSortableColumn="category">Category<p-sortIcon field="category.name"></p-sortIcon></th>
-            <th>Price</th>
-            <th>Tax</th>
+            <th pSortableColumn="name">{{'PRODUCTS.TABLE.NAME' | translate }}<p-sortIcon field="name"></p-sortIcon></th>
+            <th pSortableColumn="category">{{'PRODUCTS.TABLE.CATEGORY' | translate }}<p-sortIcon field="category.name"></p-sortIcon></th>
+            <th>{{'PRODUCTS.TABLE.PRICE' | translate }}</th>
+            <th>{{'PRODUCTS.TABLE.TAX' | translate }}</th>
             <th></th>
         </tr>
     </ng-template>

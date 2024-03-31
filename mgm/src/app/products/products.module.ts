@@ -9,6 +9,7 @@ import { ProductEditComponent } from './pages/product-edit/product-edit.componen
 import { ProductsLayoutComponent } from './pages/products-layout/products-layout.component';
 import { CategoriesListComponent } from './pages/categories-list/categories-list.component';
 import { CategoryEditComponent } from './pages/category-edit/category-edit.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CategoryEditComponent } from './pages/category-edit/category-edit.compo
     CommonModule,
     PrimengModule,
     ProductsRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule
   ],
   exports: [
   //   ProductsListComponent
