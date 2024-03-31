@@ -8,3 +8,11 @@ AUTH:
     PASSWORD: "Password"
     FORGOT_PASSWORD: "Forgot password?"
     SING_IN: "Sign in"
+SHARED:
+  MENU:
+    PRODUCTS: "Products"
+    CATEGORIES: "Categories"
+    USERS:
+      TITLE: "Users"
+      NEW: "New user"
+      LIST: "User list"

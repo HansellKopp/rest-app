@@ -9,3 +9,11 @@ AUTH:
     REMEMBER_ME: "Recuérdame"
     FORGOT_PASSWORD: "¿Olvidaste tu contraseña?"
     SING_IN: "Iniciar sesión"
+SHARED:
+  MENU:
+    PRODUCTS: "Productos"
+    CATEGORIES: "Categorías"
+    USERS:
+      TITLE: "Usuarios"
+      NEW: "Nuevo usuarsio"
+      LIST: "Lista de usuarios"
