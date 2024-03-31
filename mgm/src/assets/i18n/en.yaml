@@ -2,3 +2,9 @@ APP_TITLE: "HK Restaurante"
 AUTH:
   LOGIN:
     WELCOME: "Welcome to HK Restaurante"
+    HAS_ACCOUNT: "Already have an account?"
+    CREATE_ACCOUNT: "Create an account!"
+    USERNAME: "Username"
+    PASSWORD: "Password"
+    FORGOT_PASSWORD: "Forgot password?"
+    SING_IN: "Sign in"
