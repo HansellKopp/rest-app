@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
 import { PrimengModule } from '../primeng/primeng.module';
 import { LoginComponent } from './pages/login/login.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { LoginComponent } from './pages/login/login.component';
     CommonModule,
     AuthRoutingModule,
     PrimengModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule
   ],
   exports: [
     LoginComponent

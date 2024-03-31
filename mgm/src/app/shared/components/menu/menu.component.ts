@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MenuItem, PrimeIcons } from 'primeng/api';
 import { AuthService } from 'src/app/auth/services/auth-service';
 import { PrimengModule } from 'src/app/primeng/primeng.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'shared-menu',
@@ -12,7 +13,8 @@ import { PrimengModule } from 'src/app/primeng/primeng.module';
   styleUrls: ['./menu.component.scss'],
   imports: [
     PrimengModule,
-    NgIf, JsonPipe
+    NgIf, JsonPipe,
+    TranslateModule
   ]
 })
 export class MenuComponent implements OnInit {

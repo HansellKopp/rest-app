@@ -1,9 +1,8 @@
-import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RippleModule } from 'primeng/ripple';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import localesEs from "@angular/common/locales/es";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +18,7 @@ import { GlobalErrorHandler } from './shared/utils/global-error-handler';
 import { AuthInterceptor } from './shared/utils/auth.interceptor';
 import { TotestComponent } from './shared/totest/totest.component';
 import { httpInterceptorProviders } from './shared/utils/http-request.interceptor';
+import { provideTranslation } from './providers/translation';
 
 
 registerLocaleData(localeEsVe);
@@ -35,10 +35,10 @@ registerLocaleData(localeEsVe);
     RippleModule,
     SharedModule,
     PrimengModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'es-VE'},
+    provideTranslation(),
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     {
       provide: HTTP_INTERCEPTORS,

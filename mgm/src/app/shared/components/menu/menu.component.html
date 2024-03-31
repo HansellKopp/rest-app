@@ -6,7 +6,7 @@
     <div class="p-toolbar-group-start">
         <p-button (click)="sidebarVisible = true" icon="{{icon}}" styleClass="p-button-text"></p-button>
     </div>
-    <div class="flex-grow-1 font-bold text-xl" i18n>Rest App</div>
+    <div class="flex-grow-1 font-bold text-xl">{{ 'APP_TITLE' | translate }}</div>
     <div class="p-toolbar-group-end">
         <p-menu #menu [model]="userMenuItems" [popup]="true"></p-menu>
         <p-avatar *ngIf="isLogged(); else notlogged" size="large" shape="circle" (click)="menu.toggle($event)" >
