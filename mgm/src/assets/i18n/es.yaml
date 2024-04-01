@@ -49,6 +49,10 @@ SHARED:
       TITLE: "Usuarios"
       NEW: "Nuevo usuarsio"
       LIST: "Lista de usuarios"
+    LOGOUT: "Cerrar sesión"
+    PROFILE: "Perfil"
+    OPTIONS: "Opciones"
+    USER_OPTIONS: "Opciones de usuario"
 CATEGORIES:
   SEARCH: "Buscar categoría"
   SEARCH_CLEAR: "Limpiar"

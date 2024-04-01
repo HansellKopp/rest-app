@@ -48,6 +48,10 @@ SHARED:
       TITLE: "Users"
       NEW: "New user"
       LIST: "User list"
+    LOGOUT: "Logout"
+    PROFILE: "Profile"
+    OPTIONS: "Options"
+    USER_OPTIONS: "User options"
 CATEGORIES:
   SEARCH: "Search category"
   SEARCH_CLEAR: "Clear"

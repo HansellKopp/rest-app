@@ -63,6 +63,7 @@ export class MenuComponent implements OnInit {
   }
 
   loadMenu() {
+    console.log(this.translations);
     this.userMenuItems = [
         {
         label: this.translations['SHARED.MENU.USER_OPTIONS'],
