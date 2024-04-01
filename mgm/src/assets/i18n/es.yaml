@@ -101,3 +101,15 @@ PRODUCTS:
       CANCEL: "Cancelar"
       DELETE: "Eliminar"
       REQUIRED: "Este campo es requerido"
+USERS:
+  PROFILE:
+    TITLE: "Perfil de usuario"
+    BACK: "Regresar"
+    NAME: "Nombre"
+    LAST_NAME: "Apellido"
+    EMAIL: "Email"
+    PHONE: "Teléfono"
+    REQUIRED: "Este campo es requerido"
+    SAVE: "Guardar"
+    CANCEL: "Cancelar"
+    UPDATED: "Perfil de usuario actualizado"

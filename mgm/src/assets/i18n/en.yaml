@@ -100,3 +100,15 @@ PRODUCTS:
       CANCEL: "Cancel"
       DELETE: "Delete"
       REQUIRED: "This field is required"
+USERS:
+  PROFILE:
+    TITLE: "User profile"
+    BACK: "Back"
+    NAME: "Name"
+    LAST_NAME: "Lastname"
+    EMAIL: "Email"
+    PHONE: "Phone"
+    REQUIRED: "This field is required"
+    SAVE: "Save"
+    CANCEL: "Cancel"
+    UPDATED: "User profile updated"

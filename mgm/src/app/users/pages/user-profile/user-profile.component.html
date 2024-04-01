@@ -1,11 +1,10 @@
 <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{ height: '4px' }"></p-progressBar>
 <div class="surface-card p-4 shadow-2 border-round">
-    <div class="font-medium text-500 mb-3"><a routerLink="/products">Go back</a></div>
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
       <div class="border-2 border surface-border  p-4 grid">
 
             <div class="field col">
-              <label class="block" for="firstName">First name</label>
+              <label class="lock text-900 font-medium mb-2" for="firstName">{{ 'USERS.PROFILE.NAME' | translate }}</label>
               <input type="text" pInputText id="firstName" formControlName="firstName" class="w-full"/>
               <small
                 class="p-error block"
@@ -13,12 +12,12 @@
                   profileForm.controls['firstName'].invalid &&
                   profileForm.controls['firstName'].dirty
                 "
-                >Field is required</small
+                >{{ 'USERS.PROFILE.REQUIRED' | translate }}</small
               >
             </div>
 
             <div class="field col">
-                <label class="block" for="lastName">First name</label>
+                <label class="lock text-900 font-medium mb-2" for="lastName">{{ 'USERS.PROFILE.LAST_NAME' | translate }}</label>
                 <input type="text" pInputText id="lastName" formControlName="lastName" class="w-full"/>
                 <small
                   class="p-error block"
@@ -26,12 +25,12 @@
                     profileForm.controls['lastName'].invalid &&
                     profileForm.controls['lastName'].dirty
                   "
-                  >Field is required</small
+                  >{{ 'USERS.PROFILE.REQUIRED' | translate }}</small
                 >
             </div>
 
             <div class="field col">
-                <label class="block" for="email">Email</label>
+                <label class="lock text-900 font-medium mb-2" for="email">{{ 'USERS.PROFILE.EMAIL' | translate }}</label>
                 <input type="text" pInputText id="email" formControlName="email" class="w-full"/>
                 <small
                   class="p-error block"
@@ -39,12 +38,12 @@
                     profileForm.controls['email'].invalid &&
                     profileForm.controls['email'].dirty
                   "
-                  >Field is required</small
+                  >{{ 'USERS.PROFILE.REQUIRED' | translate }}</small
                 >
             </div>
 
             <div class="field col">
-                <label class="block" for="phonenumber">Phone number</label>
+                <label class="lock text-900 font-medium mb-2" for="phonenumber">{{ 'USERS.PROFILE.PHONE' | translate }}</label>
                 <input type="text" pInputText id="phonenumber" formControlName="phoneNumber" class="w-full"/>
                 <small
                   class="p-error block"
@@ -52,14 +51,13 @@
                     profileForm.controls['phoneNumber'].invalid &&
                     profileForm.controls['phoneNumber'].dirty
                   "
-                  >Field is required</small
+                  >{{ 'USERS.PROFILE.REQUIRED' | translate }}</small
                 >
             </div>
 
           </div>
             <div class="flex justify-content-end gap-2 pt-4">
-              <p-button label="Save" icon="pi pi-check" (click)="onSubmit()"></p-button>
-              <p-button label="Cancel" icon="pi pi-times" (click)="onCancel()" styleClass="p-button-secondary align-self-end "></p-button>
+              <p-button label="{{ 'USERS.PROFILE.SAVE' | translate }}" icon="pi pi-check" (click)="onSubmit()"></p-button>
             </div>
     </form>
 </div>

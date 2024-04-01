@@ -5,6 +5,7 @@ import { tap } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { UsersService } from '../../users-service';
 import { User } from '../../interfaces/user.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   templateUrl: './user-profile.component.html',
@@ -14,6 +15,7 @@ export class UserProfileComponent implements OnInit {
   private router = inject(Router);
   private usersService = inject(UsersService);
   private messageService = inject(MessageService);
+  private translateService = inject(TranslateService);
   public loading: boolean = true;
     
   public profileForm = new FormGroup({
@@ -46,7 +48,9 @@ export class UserProfileComponent implements OnInit {
       .pipe(          
         tap((success: boolean)=> {
             if(success) {
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'User profile updated', life: 3000 })
+              this.messageService.add({ severity: 'success', 
+              summary: this.translateService.instant('API.SUCCESS.DEFAULT'), 
+              detail: this.translateService.instant('USERS.PROFILE.UPDATED'), life: 3000 })
             }
           })
         ).subscribe();
