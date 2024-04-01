@@ -1,4 +1,36 @@
 APP_TITLE: "HK Restaurante"
+API:
+  ERROR:
+    400: "Solicitud incorrecta"
+    401: "No autorizado"
+    404: "Recurso no encontrado"
+    500: "Error interno del servidor"
+    DEFAULT: "Ocurrió un error"
+  SUCCESS:
+    CREATE: "Recurso creado"
+    UPDATE: "Recurso actualizado"
+    DELETE: "Recurso eliminado"
+    LOGIN: "Inicio de sesión exitoso"
+    LOGOUT: "Cierre de sesión exitoso"
+    DEFAULT: "Éxito"
+  VALIDATION:
+    REQUIRED: "Este campo es requerido"
+    MIN_LENGTH: "La longitud mínima es %{min}"
+    MAX_LENGTH: "La longitud máxima es %{max}"
+    EMAIL: "Correo electrónico inválido"
+    PASSWORD: "Contraseña inválida"
+    USERNAME: "Nombre de usuario inválido"
+    CATEGORY:
+      NAME: "Nombre de categoría inválido"
+    PRODUCT:
+      NAME: "Nombre de producto inválido"
+      PRICE: "Precio inválido"
+      TAX: "Impuesto inválido"
+    USER:
+      USERNAME: "Nombre de usuario inválido"
+      PASSWORD: "Contraseña inválida"
+      EMAIL: "Correo electrónico inválido"
+      ROLE: "Rol inválido"
 AUTH:
   LOGIN:
     WELCOME: "Bienvenido a HK Restaurante"
@@ -26,6 +58,15 @@ CATEGORIES:
   EXPORT: "Exportar"
   TABLE:
     CATEGORY: "Categoría"
+  EDIT:
+    NEW_TITLE: "Nueva categoría"
+    BACK: "Volver"
+    FORM:
+      CATEGORY: "Categoría"
+      SAVE: "Guardar"
+      CANCEL: "Cancelar"
+      DELETE: "Eliminar"
+      REQUIRED: "Este campo es requerido"
 PRODUCTS:
   SEARCH: "Buscar producto"
   SEARCH_CLEAR: "Limpiar"
@@ -38,3 +79,15 @@ PRODUCTS:
     CATEGORY: "Categoría"
     PRICE: "Precio"
     TAX: "Impuesto"
+  EDIT:
+    NEW_TITLE: "Nuevo producto"
+    BACK: "Volver"
+    FORM:
+      NAME: "Nombre"
+      CATEGORY: "Categoría"
+      PRICE: "Precio"
+      TAX: "Impuesto"
+      SAVE: "Guardar"
+      CANCEL: "Cancelar"
+      DELETE: "Eliminar"
+      REQUIRED: "Este campo es requerido"

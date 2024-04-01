@@ -1,4 +1,36 @@
 APP_TITLE: "HK Restaurante"
+API:
+  ERROR:
+    400: "Bad request"
+    401: "Unauthorized"
+    404: "Resource not found"
+    500: "Internal server error"
+    DEFAULT: "An error occurred"
+  SUCCESS:
+    CREATE: "Resource created"
+    UPDATE: "Resource updated"
+    DELETE: "Resource deleted"
+    LOGIN: "Login successful"
+    LOGOUT: "Logout successful"
+    DEFAULT: "Success"
+  VALIDATION:
+    REQUIRED: "This field is required"
+    MIN_LENGTH: "Minimum length is %{min}"
+    MAX_LENGTH: "Maximum length is %{max}"
+    EMAIL: "Invalid email"
+    PASSWORD: "Invalid password"
+    USERNAME: "Invalid username"
+    CATEGORY:
+      NAME: "Invalid category name"
+    PRODUCT:
+      NAME: "Invalid product name"
+      PRICE: "Invalid price"
+      TAX: "Invalid tax"
+    USER:
+      USERNAME: "Invalid username"
+      PASSWORD: "Invalid password"
+      EMAIL: "Invalid email"
+      ROLE: "Invalid role"
 AUTH:
   LOGIN:
     WELCOME: "Welcome to HK Restaurante"
@@ -25,6 +57,15 @@ CATEGORIES:
   EXPORT: "Export"
   TABLE:
     CATEGORY: "Category"
+  EDIT:
+    NEW_TITLE: "New category"
+    BACK: "Back"
+    FORM:
+    CATEGORY: "category"
+    SAVE: "save"
+    CANCEL: "cancel"
+    DELETE: "delete"
+    REQUIRED: "This field is required"
 PRODUCTS:
   SEARCH: "Search product"
   SEARCH_CLEAR: "Clear"
@@ -37,3 +78,15 @@ PRODUCTS:
     CATEGORY: "Category"
     PRICE: "Price"
     TAX: "Tax"
+  EDIT:
+    NEW_TITLE: "New product"
+    BACK: "Back"
+    FORM:
+      NAME: "Name"
+      CATEGORY: "Category"
+      PRICE: "Price"
+      TAX: "Tax"
+      SAVE: "Save"
+      CANCEL: "Cancel"
+      DELETE: "Delete"
+      REQUIRED: "This field is required"

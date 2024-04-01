@@ -4,15 +4,30 @@ import { Product } from './interfaces/product-interface';
 import { environment } from 'src/environments/environment.development';
 import { Observable, map, catchError, of } from 'rxjs';
 import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
   private http = inject(HttpClient);
+  private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
 
-  showErrorMessage(summary: string, detail: string): void {
+  showErrorMessage(error: HttpErrorResponse): void {
+    const summary = error.statusText;
+    let detail = error.message;
+    switch (error.status) {
+      case 400:
+        detail = this.translateService.instant("API.ERROR.400");
+        break;
+      case 401:
+        detail = this.translateService.instant("API.ERROR.401");
+        break;
+      case 404:
+        detail = this.translateService.instant("API.ERROR.404");
+        break;
+    }
     this.messageService.add({ severity: "error", summary, detail, life: 3000 })
   }
 
@@ -29,14 +44,6 @@ export class ProductsService {
     return this.http.post<Product>(`${environment.baseUrl}/products`, data)
     .pipe(
       catchError((error: HttpErrorResponse) => {
-        switch (error.status) {
-          case 400:
-            this.showErrorMessage("Server error", "Unable to create product");                        
-            break;
-          case 401:
-            this.showErrorMessage("Server error", "Unauthorized, unable to create product");            
-            break;          
-        }
         return of(undefined)
       }));
   }
@@ -44,7 +51,7 @@ export class ProductsService {
   getProductById(id: string): Observable<Product | undefined> {
     return this.http.get<Product>(`${environment.baseUrl}/products/${id}`).pipe(
       catchError((error) => {
-        console.log(error)
+        this.showErrorMessage(error);
         return of(undefined)
       }));      
   }
@@ -53,14 +60,7 @@ export class ProductsService {
     return this.http.delete<Product>(`${environment.baseUrl}/products/${id}`).pipe(
       map(() => true ),
       catchError((error) => {
-        switch (error.status) {
-          case 404:
-            this.showErrorMessage("Server error", "Product not found");
-            break;
-          case 401:
-            this.showErrorMessage("Server error", "Unauthorized, unable to delete product");            
-            break;          
-        }
+        this.showErrorMessage(error);
         return of(false)
       }));      
   }
@@ -69,14 +69,7 @@ export class ProductsService {
     return this.http.put<boolean>(`${environment.baseUrl}/products/${data.id}`, data).pipe(
       map(()=> true),
       catchError((error) => {
-        switch (error.status) {
-          case 404:
-            this.showErrorMessage("Server error", "Product not found");
-            break;
-          case 401:
-            this.showErrorMessage("Server error", "Unauthorized, unable to update product");            
-            break;          
-        }
+        this.showErrorMessage(error);
         return of(false)
       }));      
   }

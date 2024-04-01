@@ -1,18 +1,18 @@
 <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{ height: '4px' }"></p-progressBar>
 <div class="surface-card p-4 shadow-2 border-round">
-    <div *ngIf="!loading" class="text-3xl font-medium text-900 mb-3">{{ currentProduct.id ? currentProduct.name: "Add product"  }}</div>
-    <div class="font-medium text-500 mb-3"><a routerLink="{{ listUrl }}" i18n>Go back</a></div>
+    <div *ngIf="!loading" class="text-3xl font-medium text-900 mb-3">{{ currentProduct.id ? currentProduct.name:  title }}</div>
+    <div class="font-medium text-500 mb-3"><a routerLink="{{ listUrl }}">{{ 'PRODUCTS.EDIT.BACK' | translate }}</a></div>
     <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-      <div class="border-2 border surface-border  p-4 grid">
+      <div class="border-2 border surface-border p-4 grid">
           <div class="field col">
-            <label class="block" for="categoryId" i18n>Category</label>
+            <label class="block text-900 font-medium mb-2" for="categoryId">{{ 'PRODUCTS.EDIT.FORM.CATEGORY' | translate}}</label>
             
             <p-dropdown class="md:w-20rem w-full" containerStyleClass="w-full" 
               id="categoryId"
               formControlName="category"
               [options]="categories" 
               optionLabel="name"
-              placeholder="Category"
+              placeholder="{{ 'PRODUCTS.EDIT.FORM.CATEGORY' | translate }}"
               selectId="id"
             ></p-dropdown>
             <small
@@ -21,11 +21,11 @@
                 productForm.controls['price'].invalid &&
                 productForm.controls['price'].dirty
               "
-              i18n>Field is required</small
+              >{{ 'PRODUCTS.EDIT.FORM.REQUIRED' | translate}}</small
             >
           </div>
             <div class="field col">
-              <label class="block" for="title" i18n>Name</label>
+              <label class="block text-900 font-medium mb-2" for="title" >Name</label>
               <input type="text" pInputText id="name" formControlName="name" class="w-full"/>
               <small
                 class="p-error block"
@@ -33,11 +33,11 @@
                   productForm.controls['name'].invalid &&
                   productForm.controls['name'].dirty
                 "
-                i18n>Field is required</small
+                >{{ 'PRODUCTS.EDIT.FORM.REQUIRED' | translate}}</small
               >
             </div>
             <div class="field col">
-              <label class="block" for="price" i18n>Price</label>
+              <label class="lock text-900 font-medium mb-2" for="price" >Price</label>
               <p-inputNumber
                 id="price"
                 formControlName="price"
@@ -49,15 +49,15 @@
                   productForm.controls['price'].invalid &&
                   productForm.controls['price'].dirty
                 "
-                >Field is required</small
+                >{{ 'PRODUCTS.EDIT.FORM.REQUIRED' | translate}}</small
               >
             </div>
             <div class="field col">
-              <label class="block" for="price">Tax</label>
+              <label class="block text-900 font-medium mb-2" for="price">Tax</label>
               <p-inputNumber
                 id="tax"
                 formControlName="tax"
-                class="block"
+                class="lock text-900 font-medium mb-2"
               ></p-inputNumber>
               <small
                 class="p-error block"
@@ -65,17 +65,16 @@
                   productForm.controls['price'].invalid &&
                   productForm.controls['price'].dirty
                 "
-                i18n>Field is required</small
+                >{{ 'PRODUCTS.EDIT.FORM.REQUIRED' | translate}}</small
               >
               
             </div>
-            
           </div>
           <div class="flex justify-content-between pt-4">
-            <p-button label="Delete" icon="pi pi-trash" (click)="deleteProduct()" styleClass="p-button-danger"></p-button>
+            <p-button label="{{ 'PRODUCTS.EDIT.FORM.DELETE'| translate }}" icon="pi pi-trash" (click)="deleteProduct()" styleClass="p-button-danger"></p-button>
             <div class="flex justify-content-end gap-2">
-              <p-button label="Save" icon="pi pi-check" (click)="onSubmit()"></p-button>
-              <p-button label="Cancel" icon="pi pi-times" (click)="onCancel()" styleClass="p-button-secondary align-self-end "></p-button>
+              <p-button label="{{ 'PRODUCTS.EDIT.FORM.SAVE'| translate }}" icon="pi pi-check" (click)="onSubmit()"></p-button>
+              <p-button label="{{ 'PRODUCTS.EDIT.FORM.CANCEL'| translate }}" icon="pi pi-times" (click)="onCancel()" styleClass="p-button-secondary align-self-end "></p-button>
             </div>
           </div>
     </form>

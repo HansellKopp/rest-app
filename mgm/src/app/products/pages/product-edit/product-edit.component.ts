@@ -7,6 +7,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { switchMap, tap } from 'rxjs';
 import { Category } from '../../interfaces/category-interface';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   templateUrl: './product-edit.component.html',
@@ -15,12 +16,14 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 })
 export class ProductEditComponent implements OnInit {
   listUrl = "/products";
+  title = "Edit Product";
   private categoriesUrl = "/categories";
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private productsService = inject(ProductsService);
   private categoriesService = inject(CategoriesService);
   private messageService = inject(MessageService);
+  private translateService = inject(TranslateService);
   public loading: boolean = true;
   private confirmationService = inject(ConfirmationService);
 
@@ -39,6 +42,9 @@ export class ProductEditComponent implements OnInit {
     this.loadCategories();
     if ( this.router.url.includes('new') ) {
       this.loading = false;
+      this.translateService.get('PRODUCTS.EDIT.NEW_TITLE').subscribe((res: string) => {
+        this.title = res;
+      });
       return;
     }
     this.activatedRoute.params

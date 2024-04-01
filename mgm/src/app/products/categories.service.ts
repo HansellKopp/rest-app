@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Injectable, inject } from '@angular/core';
 import { Category } from './interfaces/category-interface';
 import { environment } from 'src/environments/environment.development';
 import { Observable, map, catchError, of } from 'rxjs';
 import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,22 @@ import { MessageService } from 'primeng/api';
 export class CategoriesService {
   private http = inject(HttpClient);
   private messageService = inject(MessageService);
+  private translateService = inject(TranslateService);
 
-  showErrorMessage(summary: string, detail: string): void {
+  showErrorMessage(error: HttpErrorResponse): void {
+    const summary = error.statusText;
+    let detail = error.message;
+    switch (error.status) {
+      case 400:
+        detail = this.translateService.instant("API.ERROR.400");
+        break;
+      case 401:
+        detail = this.translateService.instant("API.ERROR.401");
+        break;
+      case 404:
+        detail = this.translateService.instant("API.ERROR.404");
+        break;
+    }
     this.messageService.add({ severity: "error", summary, detail, life: 3000 })
   }
 
@@ -21,7 +36,7 @@ export class CategoriesService {
     .pipe(
       map((categories: Category[]) => categories ),
       catchError((error) => {
-         console.log(error)
+         this.showErrorMessage(error);
          return of([])
       }));      
   }
@@ -29,7 +44,7 @@ export class CategoriesService {
   addCategory(data: Category): Observable<Category| undefined> {
     return this.http.post<Category>(`${environment.baseUrl}/categories`, data).pipe(
       catchError((error) => {
-        console.log(error)
+        this.showErrorMessage(error);
         return of(undefined)
       }));      
   }
@@ -37,7 +52,7 @@ export class CategoriesService {
   getCategoryById(id: string): Observable<Category | undefined> {
     return this.http.get<Category>(`${environment.baseUrl}/categories/${id}`).pipe(
       catchError((error) => {
-        console.log(error)
+        this.showErrorMessage(error);
         return of(undefined)
       }));      
   }
@@ -46,17 +61,7 @@ export class CategoriesService {
     return this.http.delete<Category>(`${environment.baseUrl}/categories/${id}`).pipe(
       map(() => true ),
       catchError((error) => {
-        switch (error.status) {
-          case 400:
-            this.showErrorMessage("Server error", "Category not found");
-            break;
-          case 401:
-            this.showErrorMessage("Server error", "Unauthorized, unable to delete a category");            
-            break;
-          case 409:
-              this.showErrorMessage("Server error", "unable to delete a category with products");            
-              break;      
-        }
+        this.showErrorMessage(error);
         return of(false)
       }));      
   }
@@ -65,14 +70,7 @@ export class CategoriesService {
     return this.http.put<boolean>(`${environment.baseUrl}/categories/${data.id}`, data).pipe(
       map(()=> true),
       catchError((error) => {
-        switch (error.status) {
-          case 404:
-            this.showErrorMessage("Server error", "Category not found");
-            break;
-          case 401:
-            this.showErrorMessage("Server error", "Unauthorized, unable to update category");            
-            break;          
-        }
+        this.showErrorMessage(error);
         return of(false)
       }));      
   }
