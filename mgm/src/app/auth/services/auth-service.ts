@@ -27,10 +27,6 @@ export class AuthService {
     this.messageService.add({ severity: "error", summary, detail, life: 3000 })
   }
 
-  showSuccessMessage(summary: string, detail: string): void {
-    this.messageService.add({ severity: "success", summary, detail, life: 3000 })
-  }
-
   login(data: AuthRequest): Observable<AuthResponse| undefined> {
     this.clearUser();
     return this.http.post<AuthResponse>(`${environment.baseUrl}/auth`, data)
@@ -42,14 +38,6 @@ export class AuthService {
           this.getCurrentUser();
           this.router.navigate(['/']);
         }
-      }),
-      catchError((error: HttpErrorResponse) => {
-        switch (error.status) {
-          case 400:
-            this.showErrorMessage("Login error", "Unable to login user");
-            break;
-        }
-        return of(undefined)
       }));
   }
 
@@ -82,8 +70,6 @@ export class AuthService {
 
   logout() {
     this.clearUser();
-    this.showSuccessMessage('Successful', 'User session closed');
-    return;
   }
 
   refreshToken() {

@@ -41,6 +41,9 @@ AUTH:
     REMEMBER_ME: "Recuérdame"
     FORGOT_PASSWORD: "¿Olvidaste tu contraseña?"
     SING_IN: "Iniciar sesión"
+    SESSION_CLOSED: "Tu sesión ha sido cerrada"
+    UNABLE_TO_LOGIN: "No se pudo iniciar sesión"
+    LOGIN_ERROR: "Error al iniciar sesión"
 SHARED:
   MENU:
     PRODUCTS: "Productos"
@@ -53,6 +56,9 @@ SHARED:
     PROFILE: "Perfil"
     OPTIONS: "Opciones"
     USER_OPTIONS: "Opciones de usuario"
+  MESSAGES:
+    SUCCESS: "Éxito"
+    LOGGED_IN: "Has iniciado sesión"
 CATEGORIES:
   SEARCH: "Buscar categoría"
   SEARCH_CLEAR: "Limpiar"

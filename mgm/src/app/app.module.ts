@@ -20,7 +20,6 @@ import { TotestComponent } from './shared/totest/totest.component';
 import { httpInterceptorProviders } from './shared/utils/http-request.interceptor';
 import { provideTranslation } from './providers/translation';
 
-
 registerLocaleData(localeEsVe);
 
 @NgModule({
@@ -43,7 +42,7 @@ registerLocaleData(localeEsVe);
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true
+      multi: true,
     },
     httpInterceptorProviders,
     MessageService

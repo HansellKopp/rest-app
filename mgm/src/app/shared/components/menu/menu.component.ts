@@ -1,7 +1,7 @@
 import { JsonPipe, NgIf } from '@angular/common';
 import { Component, OnInit, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuItem, PrimeIcons } from 'primeng/api';
+import { MenuItem, MessageService, PrimeIcons } from 'primeng/api';
 import { AuthService } from 'src/app/auth/services/auth-service';
 import { PrimengModule } from 'src/app/primeng/primeng.module';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -21,6 +21,7 @@ import { forkJoin } from 'rxjs';
 export class MenuComponent implements OnInit {
   private router = inject(Router);
   private authService = inject(AuthService);
+  private messageService = inject(MessageService);
   private translateService = inject(TranslateService);
   private translations: Record<string, string> = {};
   user = computed(()=> this.authService.user())
@@ -33,6 +34,9 @@ export class MenuComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+    this.messageService.add({ severity: 'success',
+        summary: this.translateService.instant('API.SUCCESS.DEFAULT'), 
+        detail: this.translateService.instant('API.SUCCESS.LOGOUT') });
     this.router.navigateByUrl("/login");
   }
 

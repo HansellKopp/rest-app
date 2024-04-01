@@ -40,6 +40,12 @@ AUTH:
     PASSWORD: "Password"
     FORGOT_PASSWORD: "Forgot password?"
     SING_IN: "Sign in"
+  MESSAGES:
+    SUCCESS: "Success"
+    LOGGED_IN: "You are logged in"
+    SESSION_CLOSED: "Your session has been closed"
+    UNABLE_TO_LOGIN: "Unable to login"
+    LOGIN_ERROR: "Login error"
 SHARED:
   MENU:
     PRODUCTS: "Products"
