@@ -26,7 +26,7 @@ export class MenuComponent implements OnInit {
   private translations: Record<string, string> = {};
   user = computed(()=> this.authService.user())
   isLogged = computed(()=> !!this.user())
-  initials = computed(()=> `${this.user()?.firstName[0]} ${this.user()?.lastName[0]}`)  
+  initials = computed(()=> `${this.user()?.firstName[0]||'A'} ${this.user()?.lastName[0]||'U'}`)  
   sidebarVisible: boolean = false;
   icon = PrimeIcons.BARS
   items: MenuItem[] = [];
@@ -67,7 +67,6 @@ export class MenuComponent implements OnInit {
   }
 
   loadMenu() {
-    console.log(this.translations);
     this.userMenuItems = [
         {
         label: this.translations['SHARED.MENU.USER_OPTIONS'],

@@ -36,6 +36,7 @@ AUTH:
     WELCOME: "Welcome to HK Restaurante"
     HAS_ACCOUNT: "Already have an account?"
     CREATE_ACCOUNT: "Create an account!"
+    REMEMBER_ME: "Remember me"
     USERNAME: "Username"
     PASSWORD: "Password"
     FORGOT_PASSWORD: "Forgot password?"
