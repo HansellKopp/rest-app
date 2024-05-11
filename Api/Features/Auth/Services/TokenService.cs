@@ -39,20 +39,10 @@ public sealed class TokenService : ITokenService
         // We're reading the authentication configuration for the Bearer scheme
         var bearerSection = authenticationConfigurationProvider.GetSchemeConfiguration(JwtBearerDefaults.AuthenticationScheme);
 
-        // An example of what the expected schema looks like
-        // "Authentication": {
-        //     "Schemes": {
-        //       "Bearer": {
-        //         "ValidAudiences": [ ],
-        //         "ValidIssuer": "",
-        //         "SigningKeys": [ { "Issuer": .., "Value": base64Key, "Length": 32 } ]
-        //       }
-        //     }
-        //   }
 
         var section = bearerSection.GetSection("SigningKeys:0");
 
-        _durationMinutes = int.Parse(bearerSection["DurationMinutes"] ?? "1");
+        _durationMinutes = int.Parse(bearerSection["DurationMinutes"] ?? "15");
         _issuer = bearerSection["ValidIssuer"] ?? throw new InvalidOperationException("Issuer is not specified");
         var signingKeyBase64 = section["Value"] ?? throw new InvalidOperationException("Signing key is not specified");
 

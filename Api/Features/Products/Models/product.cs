@@ -1,4 +1,5 @@
 using Api.Models;
+using System.Reflection.Metadata;
 
 namespace Api.Features.Products.Models;
 
@@ -9,6 +10,6 @@ public class Product : BaseEntity
     public Double Tax { get; set; }
     public string? Image { get; set; }
     public Guid CategoryId { get; set; }
-    public virtual Category? Category { get; set; }
+    public Category Category { get; set; } = null!; // Required reference navigation to principal
 
 }

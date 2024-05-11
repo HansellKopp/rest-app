@@ -24,7 +24,7 @@ builder.Configuration
 
 
 // Connect DB
-builder.Services.AddEntityFrameworkNpgsql().AddDbContext<Dbc>(opt =>
+builder.Services.AddDbContext<Dbc>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("db")));
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
