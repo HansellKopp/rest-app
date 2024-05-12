@@ -51,6 +51,7 @@ export class UserProfileComponent implements OnInit {
               this.messageService.add({ severity: 'success', 
               summary: this.translateService.instant('API.SUCCESS.DEFAULT'), 
               detail: this.translateService.instant('USERS.PROFILE.UPDATED'), life: 3000 })
+              this.router.navigateByUrl("")
             }
           })
         ).subscribe();
